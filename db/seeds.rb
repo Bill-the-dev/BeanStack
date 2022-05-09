@@ -11,7 +11,7 @@
   name = Faker::Coffee.blend_name
   vendor = Faker::Coffee.origin
   quantity = rand(0..99)
-  price = Faker::Number.between(from: 5.00, to: 20.99).round(2)
+  price = rand(5.00..20.99).round(2).to_f
   description = Faker::Coffee.notes
   category = Faker::Coffee.variety
   user_id = 1
