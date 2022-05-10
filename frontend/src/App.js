@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Typography variant="h1">Inventorify</Typography>
+        <Typography variant="h1">BeanStack</Typography>
         <hr />
       </header>
       

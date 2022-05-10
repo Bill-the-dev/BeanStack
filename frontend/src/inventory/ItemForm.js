@@ -49,12 +49,21 @@ class ItemForm extends Component {
             autoComplete='off'>
             <TextField 
               label='Item Name'
-              id='item-input'
+              id='item-name'
               sx={{ m: 1, width: '25ch' }}
               variant='outlined'
               type='text'
               name='item[name]'
-              placeholder='Item Name'
+              onChange={this.handleChange}
+              required
+            />
+            <TextField 
+              label='Vendor / Source'
+              id='item-vendor'
+              sx={{ m: 1, width: '25ch' }}
+              variant='outlined'
+              type='text'
+              name='item[vendor]'
               onChange={this.handleChange}
             />
             <TextField
@@ -64,17 +73,38 @@ class ItemForm extends Component {
               onChange={this.handleChange}
               startAdornment={<InputAdornment position="start"></InputAdornment>}
               name='item[quantity]'
+              required
             />
-            <FormControl fullWidth sx={{ m: 1 }}>
-              <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+            <FormControl sx={{ m: 1 }}>
+              <InputLabel required htmlFor="item-price">Price</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-amount"
-                
+                id="item-price"
                 onChange={this.handleChange}
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                label="Amount"
+                label="Price"
+                name="item[price]"
               />
             </FormControl>
+            <TextField
+              label='Description'
+              id='item-description'
+              sx={{ m: 1, width: '85vw' }}
+              variant='outlined'
+              type='text'
+              name='item[description]'
+              multiline={true}
+              minRows={2}
+              onChange={this.handleChange}
+            />
+            <TextField
+              label='Category'
+              id='item-category'
+              sx={{ m: 1, width: '25ch' }}
+              variant='outlined'
+              type='text'
+              name='item[category]'
+              onChange={this.handleChange}
+            />
             <Button 
               variant='contained'
               color='primary'
