@@ -8,8 +8,10 @@ function App() {
       <header className="App-header">
         <Typography variant="h1">Inventorify</Typography>
         <hr />
-        <Inventory />
       </header>
+      
+      <Inventory />
+      
     </div>
   );
 }
