@@ -1,6 +1,6 @@
 import './App.css';
 import Inventory from './inventory/Inventory';
-import Typography from "@mui/material/Typography";
+import { Typography, Paper } from "@mui/material";
 
 function App() {
   return (
@@ -9,8 +9,9 @@ function App() {
         <Typography variant="h1">BeanStack</Typography>
         <hr />
       </header>
-      
-      <Inventory />
+      <Paper elevation={3}>
+        <Inventory />
+      </Paper>
       
     </div>
   );

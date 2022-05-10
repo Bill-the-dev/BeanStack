@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { TextField, InputAdornment, Box, Button, FormControl, InputLabel, OutlinedInput } from '@mui/material'
+import { TextField, InputAdornment, Box, Button, FormControl, InputLabel, OutlinedInput, Paper} from '@mui/material'
 class ItemForm extends Component {
   constructor(props) {
     super(props)
@@ -41,16 +41,17 @@ class ItemForm extends Component {
 
   render() {
     return(
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
-        <div>
+      // <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
+        <Paper elevation={3}>
           <form
             onSubmit={this.handleSubmit}
             id='item-form'
             autoComplete='off'>
+
             <TextField 
               label='Item Name'
               id='item-name'
-              sx={{ m: 1, width: '25ch' }}
+              sx={{ m: 1, width: '40vw' }}
               variant='outlined'
               type='text'
               name='item[name]'
@@ -60,7 +61,7 @@ class ItemForm extends Component {
             <TextField 
               label='Vendor / Source'
               id='item-vendor'
-              sx={{ m: 1, width: '25ch' }}
+              sx={{ m: 1, width: '40vw' }}
               variant='outlined'
               type='text'
               name='item[vendor]'
@@ -69,13 +70,13 @@ class ItemForm extends Component {
             <TextField
               label="Quantity"
               id="item-quantity"
-              sx={{ m: 1, width: '25ch' }}
+              sx={{ m: 1, width: '40vw' }}
               onChange={this.handleChange}
               startAdornment={<InputAdornment position="start"></InputAdornment>}
               name='item[quantity]'
               required
             />
-            <FormControl sx={{ m: 1 }}>
+            <FormControl sx={{ m: 1, width: '40vw' }}>
               <InputLabel required htmlFor="item-price">Price</InputLabel>
               <OutlinedInput
                 id="item-price"
@@ -88,7 +89,7 @@ class ItemForm extends Component {
             <TextField
               label='Description'
               id='item-description'
-              sx={{ m: 1, width: '85vw' }}
+              sx={{ m: 1, width: '81.5vw' }}
               variant='outlined'
               type='text'
               name='item[description]'
@@ -99,7 +100,7 @@ class ItemForm extends Component {
             <TextField
               label='Category'
               id='item-category'
-              sx={{ m: 1, width: '25ch' }}
+              sx={{ m: 1, width: '40vw' }}
               variant='outlined'
               type='text'
               name='item[category]'
@@ -108,11 +109,12 @@ class ItemForm extends Component {
             <Button 
               variant='contained'
               color='primary'
-              type='submit'>
+              type='submit'
+              sx={{ m: 2.25 }}>
             Add Item</Button>
           </form>
-        </div>
-      </Box>
+        </Paper>
+      // </Box>
     )
   }
 
