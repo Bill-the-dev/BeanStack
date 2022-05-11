@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { TextField, InputAdornment, Box, Button, FormControl, InputLabel, OutlinedInput, Paper, Typography } from '@mui/material'
+import axios from 'axios';
 class ItemForm extends Component {
   constructor(props) {
     super(props)
@@ -39,13 +40,13 @@ class ItemForm extends Component {
       mode: 'cors', 
       body: data
     })
+    // await axios.post(this.state.api_url, data)
     .then(res => res.json())
     .then(res => this.props.updateInventory(res))
   }
 
   render() {
     return(
-      // <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
       <Paper elevation={3} sx={{ justifyContent: "center" }}>
         <Typography variant="h4" sx={{ p:2 }} >Create Row</Typography>
         <form
@@ -117,12 +118,16 @@ class ItemForm extends Component {
             type='submit'
             sx={{ m: 2.25 }}>
           Add Item</Button>
+          <Button 
+            variant='contained'
+            color='primary'
+            type='reset'
+            sx={{ m: 2.25 }}>
+          Reset Fields</Button>
         </form>
       </Paper>
-      // </Box>
     )
   }
-
 }
 
 export default ItemForm;

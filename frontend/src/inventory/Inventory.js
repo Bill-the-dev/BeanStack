@@ -65,7 +65,7 @@ class Inventory extends Component {
       selected: data
     })
   }
-
+  
   // CRUD - UPDATE FIELD
   handleCommit(e) {
     // console.log(e); // {id: 1, field: 'name', value: 'Evening Forrest'}
