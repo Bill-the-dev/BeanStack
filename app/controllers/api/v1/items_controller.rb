@@ -15,6 +15,7 @@ class Api::V1::ItemsController < ApplicationController
 
   # POST /items
   def create
+    debugger
     @item = Item.new(item_params)
 
     if @item.save
@@ -26,8 +27,10 @@ class Api::V1::ItemsController < ApplicationController
 
   # PATCH/PUT /items/1
   def update
+    debugger
     if @item.update(item_params)
-      render json: @item
+      # render json: @item # original
+      render json: @item, location: api_v1_items_path(@item)
     else
       render json: @item.errors, status: :unprocessable_entity
     end
@@ -41,6 +44,7 @@ class Api::V1::ItemsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_item
+      debugger
       @item = Item.find(params[:id])
     end
 

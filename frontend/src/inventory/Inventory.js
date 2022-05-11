@@ -6,6 +6,7 @@ import ItemForm from './ItemForm';
 import { Button, Grid, Paper } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DataGrid } from '@mui/x-data-grid';
+import axios from 'axios'
 
 
 
@@ -33,6 +34,7 @@ class Inventory extends Component {
     this.updateInventory = this.updateInventory.bind(this)
     this.updateSelected = this.updateSelected.bind(this)
     this.handleDeleteAll = this.handleDeleteAll.bind(this)
+    this.handleCommit = this.handleCommit.bind(this)
   }
 
   componentDidMount() {
@@ -64,33 +66,46 @@ class Inventory extends Component {
     })
   }
 
-  // Handle Delete Selected
+  // CRUD - UPDATE FIELD
+  handleCommit(e) {
+    // console.log(e); // {id: 1, field: 'name', value: 'Evening Forrest'}
+    let data = {item: {[e.field]: e.value}}
+    let updateUrl = api_url + `/${e.id}`;
+    axios.patch(updateUrl, data)
+  }
+  // limitation with fetch PATCH, params not permitted 
+  // fetch(updateUrl, {
+  //   method: 'PATCH', 
+  //   mode: 'cors',
+  //   body: JSON.stringify(data)
+  // })
+
+
+  // CRUD - DELETE SELECTED 
   handleDeleteAll() {
-    debugger
     let arrayIds = this.state.selected
     for (let i = 0; i < arrayIds.length; i++) {
-      debugger
       let id = arrayIds[i];
       let deleteUrl = api_url + `/${id}`
       // server-side delete
-      fetch(deleteUrl, {
-        method: "DELETE"
-      })
+      axios.delete(deleteUrl)
+      // fetch(deleteUrl, {
+      //   method: "DELETE"
+      // })
       // client-side delete
       .then(() => {
-        debugger
         let _items = [...this.state.items]
         let _newItems = _items.filter(function(obj) {
           return obj.id !== id 
         });
-        // let _itemIdx = _items.indexOf(id)
-        // _items.splice(_itemIdx, 1)
         this.setState({
           items: _newItems
         })
       })
     }
   }
+
+
 
   render() {
     console.log(this.state.items)
@@ -114,15 +129,12 @@ class Inventory extends Component {
             loading={!items.length}
             checkboxSelection
             onSelectionModelChange={(data) => this.updateSelected(data)}
+            onCellEditCommit={this.handleCommit}
             rowsPerPageOptions={[10, 50, 100]}
           />
-          {/* <DataTable 
-            rows={items}
-            columns={columns} 
-          /> */}
         </Grid>
         <hr />
-        <Grid item xs={12} justifySelf="center" >
+        <Grid item xs={12} sx={{ m: "1rem"}}>
           <ItemForm api_url={api_url} updateInventory={this.updateInventory}/>
         </Grid>
       </Grid>

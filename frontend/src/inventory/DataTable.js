@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 
+
+// CURRENTLY UNUSED COMPONENT
+
+
 // const columns = [
 //   { field: 'id', headerName: 'ID', width: 75 },
 //   { field: 'name', headerName: 'Name', editable: true, width: 150 },
