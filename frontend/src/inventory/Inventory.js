@@ -1,14 +1,9 @@
 import React, {Component} from 'react';
-// import { DataGrid } from '@mui/x-data-grid';
-// import Item from './Item';
-import ItemForm from './ItemForm';
-// import DataTable from './DataTable';
-import { Button, Grid, Paper } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios'
-
-
+import ItemForm from './ItemForm';
+import { Button, Grid, Paper } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const api_url = 'http://localhost:3001/api/v1/items';
 
@@ -65,7 +60,7 @@ class Inventory extends Component {
       selected: data
     })
   }
-  
+
   // CRUD - UPDATE FIELD
   handleCommit(e) {
     // console.log(e); // {id: 1, field: 'name', value: 'Evening Forrest'}
@@ -73,12 +68,6 @@ class Inventory extends Component {
     let updateUrl = api_url + `/${e.id}`;
     axios.patch(updateUrl, data)
   }
-  // limitation with fetch PATCH, params not permitted 
-  // fetch(updateUrl, {
-  //   method: 'PATCH', 
-  //   mode: 'cors',
-  //   body: JSON.stringify(data)
-  // })
 
 
   // CRUD - DELETE SELECTED 
@@ -89,10 +78,6 @@ class Inventory extends Component {
       let deleteUrl = api_url + `/${id}`
       // server-side delete
       axios.delete(deleteUrl)
-      // fetch(deleteUrl, {
-      //   method: "DELETE"
-      // })
-      // client-side delete
       .then(() => {
         let _items = [...this.state.items]
         let _newItems = _items.filter(function(obj) {
@@ -104,8 +89,6 @@ class Inventory extends Component {
       })
     }
   }
-
-
 
   render() {
     console.log(this.state.items)

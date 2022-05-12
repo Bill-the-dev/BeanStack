@@ -6,6 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
+# -- ITEMS --
 
 35.times do 
   name = Faker::Coffee.blend_name
@@ -26,6 +27,45 @@
   )
 end
 
+
+# -- LOCATIONS --
+
+new_york = Location.create(
+  city: 'New York',
+  state: 'NY',
+  zip: '10018',
+  weather: ''
+)
+
+chicago = Location.create(
+  city: 'Chicago',
+  state: 'IL',
+  zip: '60657',
+  weather: ''
+)
+
+ottawa = Location.create(
+  city: 'Ottawa',
+  state: 'ON',
+  zip: 'K2P 2L8',
+  weather: ''
+)
+
+san_francisco = Location.create(
+  city: 'San Francisco',
+  state: 'CA',
+  zip: '94105',
+  weather: ''
+)
+
+denver = Location.create(
+  city: 'Denver',
+  state: 'CO',
+  zip: '80205',
+  weather: ''
+)
+
+locations = [ new_york, chicago, ottawa, san_francisco, denver ]
 
   # t.string "name" # Faker::Coffee.blend_name #=> "Summer Solstice"
   # t.string "vendor" # Faker::Coffee.origin #=> "Antigua, Guatemala"

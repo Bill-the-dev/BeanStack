@@ -10,18 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_09_180702) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_12_171912) do
   create_table "items", force: :cascade do |t|
-    t.string "name" # Faker::Coffee.blend_name #=> "Summer Solstice"
-    t.string "vendor" # Faker::Coffee.origin #=> "Antigua, Guatemala"
+    t.string "name"
+    t.string "vendor"
     t.integer "quantity"
     t.decimal "price"
-    t.text "description" # Faker::Coffee.notes #=> "balanced, silky, marzipan, orange-creamsicle, bergamot"
-    t.string "category" # Faker::Coffee.variety #=> "Pacas"
+    t.text "description"
+    t.string "category"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index "\"location_id\"", name: "index_items_on_location_id"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.text "weather"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "locations_items", force: :cascade do |t|
+    t.integer "location_id"
+    t.integer "item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_locations_items_on_item_id"
+    t.index ["location_id"], name: "index_locations_items_on_location_id"
+  end
+
+  add_foreign_key "locations_items", "items"
+  add_foreign_key "locations_items", "locations"
 end
