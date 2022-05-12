@@ -16,6 +16,7 @@
   description = Faker::Coffee.notes
   category = Faker::Coffee.variety
   user_id = 1
+  
   Item.create(
     name: name, 
     vendor: vendor, 
