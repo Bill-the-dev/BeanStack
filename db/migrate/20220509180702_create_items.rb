@@ -8,7 +8,6 @@ class CreateItems < ActiveRecord::Migration[7.0]
       t.text :description
       t.string :category
       t.integer :user_id
-      t.index :location_id
 
       t.timestamps
     end

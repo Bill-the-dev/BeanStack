@@ -6,27 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-# -- ITEMS --
 
-35.times do 
-  name = Faker::Coffee.blend_name
-  vendor = Faker::Coffee.origin
-  quantity = rand(0..99)
-  price = rand(5.00..20.99).round(2).to_f
-  description = Faker::Coffee.notes
-  category = Faker::Coffee.variety
-  user_id = 1
-  
-  Item.create(
-    name: name, 
-    vendor: vendor, 
-    quantity: quantity, 
-    price: price,
-    description: description, 
-    category: category,
-    user_id: user_id
-  )
-end
 
 
 # -- LOCATIONS --
@@ -66,7 +46,31 @@ denver = Location.create(
   weather: ''
 )
 
-locations = [ new_york, chicago, ottawa, san_francisco, denver ]
+# -- ITEMS --
+
+35.times do 
+  name = Faker::Coffee.blend_name
+  vendor = Faker::Coffee.origin
+  quantity = rand(0..99)
+  price = rand(5.00..20.99).round(2).to_f
+  description = Faker::Coffee.notes
+  category = Faker::Coffee.variety
+  user_id = 1
+  
+  Item.create(
+    name: name, 
+    vendor: vendor, 
+    quantity: quantity, 
+    price: price,
+    description: description, 
+    category: category,
+    user_id: user_id
+  )
+end
+location_ids = Location.all.map { |location| location.id }
+item_ids = Item.all.map { |item| item.id }
+
+
 
   # t.string "name" # Faker::Coffee.blend_name #=> "Summer Solstice"
   # t.string "vendor" # Faker::Coffee.origin #=> "Antigua, Guatemala"
