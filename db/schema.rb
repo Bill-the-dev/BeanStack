@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_12_171912) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_13_165633) do
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.string "vendor"
@@ -24,6 +24,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_12_171912) do
     t.index "\"location_id\"", name: "index_items_on_location_id"
   end
 
+  create_table "location_items", force: :cascade do |t|
+    t.integer "location_id"
+    t.integer "item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "location_quantity"
+    t.index ["item_id"], name: "index_location_items_on_item_id"
+    t.index ["location_id"], name: "index_location_items_on_location_id"
+  end
+
   create_table "locations", force: :cascade do |t|
     t.string "city"
     t.string "state"
@@ -33,15 +43,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_12_171912) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "locations_items", force: :cascade do |t|
-    t.integer "location_id"
-    t.integer "item_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_locations_items_on_item_id"
-    t.index ["location_id"], name: "index_locations_items_on_location_id"
-  end
-
-  add_foreign_key "locations_items", "items"
-  add_foreign_key "locations_items", "locations"
+  add_foreign_key "location_items", "items"
+  add_foreign_key "location_items", "locations"
 end

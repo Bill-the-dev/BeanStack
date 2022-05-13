@@ -1,6 +1,6 @@
 class Location < ApplicationRecord
-  has_many :warehouse_items
+  has_many :location_items
   has_many :items, 
-    through: :warehouse_items, 
+    through: :location_items, 
     dependent: :destroy
 end

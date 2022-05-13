@@ -11,7 +11,7 @@ const columns = [
   { field: 'id', headerName: 'ID', width: 75 },
   { field: 'name', headerName: 'Name', editable: true, width: 150 },
   { field: 'vendor', headerName: 'Vendor / Source', width: 150 },
-  { field: 'quantity', headerName: 'Quantity', width: 75 },
+  { field: 'quantity', headerName: 'Quantity', editable: true, width: 75 },
   { field: 'price', headerName: 'Price', width: 75 },
   { field: 'description', headerName: 'Description', width: 200 },
   { field: 'category', headerName: 'Category', width: 150 },

@@ -47,11 +47,10 @@ denver = Location.create(
 )
 
 # -- ITEMS --
-
 35.times do 
   name = Faker::Coffee.blend_name
   vendor = Faker::Coffee.origin
-  quantity = rand(0..99)
+  # quantity = rand(0..99)    # sum of id @ all locations?
   price = rand(5.00..20.99).round(2).to_f
   description = Faker::Coffee.notes
   category = Faker::Coffee.variety
@@ -60,17 +59,28 @@ denver = Location.create(
   Item.create(
     name: name, 
     vendor: vendor, 
-    quantity: quantity, 
+    # quantity: quantity, 
     price: price,
     description: description, 
     category: category,
     user_id: user_id
   )
 end
+
 location_ids = Location.all.map { |location| location.id }
 item_ids = Item.all.map { |item| item.id }
+# efficiency at scale hash?
 
-
+# Assumes seed inefficiency acceptable with arrays and nested iteration O(n^2), as it is only seeded once.
+location_ids.each do |loc_id|
+  item_ids.each do |item_id|
+    LocationItem.create(
+      location: Location.find(loc_id),
+      item: Item.find(item_id),
+      location_quantity: 10
+    )
+  end
+end
 
   # t.string "name" # Faker::Coffee.blend_name #=> "Summer Solstice"
   # t.string "vendor" # Faker::Coffee.origin #=> "Antigua, Guatemala"
