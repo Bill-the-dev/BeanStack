@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :items
       resources :locations do
-        resources :items
+        resources :location_items
       end
     end
   end

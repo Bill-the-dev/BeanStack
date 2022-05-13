@@ -1,13 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
-
-
-
 
 # -- LOCATIONS --
 
@@ -47,10 +37,10 @@ denver = Location.create(
 )
 
 # -- ITEMS --
-35.times do 
+25.times do 
   name = Faker::Coffee.blend_name
   vendor = Faker::Coffee.origin
-  # quantity = rand(0..99)    # sum of id @ all locations?
+  # quantity = sum of LocationItems @ all locations
   price = rand(5.00..20.99).round(2).to_f
   description = Faker::Coffee.notes
   category = Faker::Coffee.variety
@@ -59,7 +49,7 @@ denver = Location.create(
   Item.create(
     name: name, 
     vendor: vendor, 
-    # quantity: quantity, 
+    # quantity: set below, 
     price: price,
     description: description, 
     category: category,
@@ -71,16 +61,32 @@ location_ids = Location.all.map { |location| location.id }
 item_ids = Item.all.map { |item| item.id }
 # efficiency at scale hash?
 
-# Assumes seed inefficiency acceptable with arrays and nested iteration O(n^2), as it is only seeded once.
+
+# -- LOCATION ITEMS --
 location_ids.each do |loc_id|
   item_ids.each do |item_id|
     LocationItem.create(
       location: Location.find(loc_id),
       item: Item.find(item_id),
-      location_quantity: 10
+      location_quantity: rand(5..20)
     )
   end
 end
+# Assumes seed inefficiency acceptable with arrays and nested iteration O(n^2), as it is only seeded once.
+
+# -- ITEMS TOTAL --
+item_ids.each do |item_id|
+  total = 0
+  location_ids.each do |loc_id|
+    item_count = LocationItem.where(location: loc_id, item: item_id).pluck(:location_quantity)[0]
+    total += item_count
+  end
+  # set Item quantity to total
+  item = Item.find(item_id)
+  item.quantity = total
+  item.save
+end
+
 
   # t.string "name" # Faker::Coffee.blend_name #=> "Summer Solstice"
   # t.string "vendor" # Faker::Coffee.origin #=> "Antigua, Guatemala"
