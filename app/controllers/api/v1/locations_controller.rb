@@ -55,7 +55,7 @@ class Api::V1::LocationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def location_params
-      params.require(:location).permit(:city, :state, :zip, :weather, :item_id)
+      params.require(:location).permit(:city, :state, :country, :zip, :weather, :item_id)
 
       # note: zip is type 'string' 
     end

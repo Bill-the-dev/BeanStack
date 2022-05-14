@@ -1,5 +1,8 @@
 # README
 
+Created using `rails new <project_name> --api`
+  - excludes any middleware / Action Controller modules primarily useful for browser applications and skips the 'front end' of `rails g` resource generators.  
+
 
 DB queries (`rails console`)
 - All items 
@@ -11,11 +14,17 @@ DB queries (`rails console`)
 - All items at a given location (example `id: 10`)
   `LocationItem.where(location: 10)`
 - Quantity of a given item at a given location (example location `id: 1`, item `id: 3`)
-  `LocationItem.where(location: 1, item: 3).select("location_quantity")`  
-
+  `LocationItem.where(location: 1, item: 3).select("location_quantity")` 
+- Move # quantity from location 1 to location 2
+  `LocationItem.update_loc_count(value, from_id, to_id)`
 
 ## Location CRUD
-- Assumes new location starts with all possible inventory items set to `quantity: 0` to allow for easily editable totals across locations (front end).      
+- Assumes new location starts with all possible inventory items set to `quantity: 0` to allow for easily editable totals across locations (front end). 
+
+
+## General
+- Created a `user_id` column with the intention of future user auth features.
+
 
 
 

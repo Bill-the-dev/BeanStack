@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :items
       resources :locations do
         resources :location_items
+        get '/weather', to: 'weather#show', as: 'weather'
       end
     end
   end
