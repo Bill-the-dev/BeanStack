@@ -18,10 +18,10 @@ FactoryBot.define do
   #   weather { '' }
   # end
 
-  factory :location_item do
-    item
-    location
-  end
+  # factory :location_item do
+  #   item
+  #   location
+  # end
 
 end
 

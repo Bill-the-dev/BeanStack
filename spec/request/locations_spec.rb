@@ -19,13 +19,10 @@ RSpec.describe 'Locations Api', type: :request do
     
     before { get '/api/v1/locations' }
       
-      it 'returns locations ' do
-        # puts "locations == #{locations}"
-        # puts "HERE IS THE RES UNPARSED #{response}"
-        # puts "HERE LIES JSON #{JSON.parse(response.body)}"
-      	expect(JSON.parse(response.body)).not_to be_empty
-      	expect(JSON.parse(response.body).size).to eq(6)
-      end
+    it 'returns locations ' do
+      expect(JSON.parse(response.body)).not_to be_empty
+      expect(JSON.parse(response.body).size).to eq(6)
+    end
 	  
 	  it 'returns status code 200' do
 	  	expect(response).to have_http_status(200)
@@ -37,10 +34,8 @@ RSpec.describe 'Locations Api', type: :request do
     
     before { get "/api/v1/locations/#{location_id}" }
 
-
     context 'when the record exists' do
       it 'returns location' do
-        puts JSON.parse(response.body)
         expect(JSON.parse(response.body)).not_to be_empty
         expect(JSON.parse(response.body)['id']).to eq(location_id)
       end
@@ -50,13 +45,13 @@ RSpec.describe 'Locations Api', type: :request do
       end
     end  
 
-    # context 'when the record does not exist' do  
-    #   let(:location_id){100}
+    context 'when the record does not exist' do  
+      let(:location_id){999}
       
-    #   it 'returns status code 404' do
-    #     expect(response).to_not render_template(:show)
-    #   end 	
-    # end	
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end 	
+    end	
   end
 
   # POST /locations - CREATE 
@@ -75,12 +70,13 @@ RSpec.describe 'Locations Api', type: :request do
       end	
     end
 
-    # context "when the request is invalid" do
-    #   before {post '/api/v1/locations', params: {} }
-    #   it "returns status code 422" do
-    #     expect(response).to have_http_status(422)
-    #   end
-    # end	
+    context "when the request is invalid" do
+      before {post '/api/v1/locations', params: {location: {city: '', state: 'NJ', country: 'US', zip: '07045' }}}
+      
+      it "returns status code 422" do
+        expect(response).to have_http_status(422)
+      end
+    end	
   end
     
   # PUT /locations/:id - UPDATE 
@@ -91,7 +87,6 @@ RSpec.describe 'Locations Api', type: :request do
       before { put "/api/v1/locations/#{location_id}", params: valid_attributes }
       
       it "successfully updates record" do
-        puts "HERE #{JSON.parse(response.body)}"
         expect(JSON.parse(response.body)['city']).to eq('Sparta')
       end
       
@@ -100,13 +95,13 @@ RSpec.describe 'Locations Api', type: :request do
       end	
     end
 
-    # context "when request attributes are invalid" do
-    #   before { put "/api/v1/locations/#{location_id}", params: {name: nil} }
+    context "when request attributes are invalid" do
+      before { put "/api/v1/locations/#{location_id}", params: { location: {city: nil }}}
       
-    #   it "returns status code 422" do
-    #     expect(response).to have_http_status(422)
-    #   end
-    # end
+      it "returns status code 422" do
+        expect(response).to have_http_status(422)
+      end
+    end
   end
 
 	# DELETE /locations/:id - DESTROY

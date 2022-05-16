@@ -10,7 +10,11 @@ class Api::V1::LocationsController < ApplicationController
 
   # GET /locations/1
   def show
-    render json: @location
+    if @location
+      render json: @location
+    else 
+      render json: 'location does not exist', status: 404
+    end
   end
 
   # POST /locations
@@ -36,7 +40,7 @@ class Api::V1::LocationsController < ApplicationController
   # PATCH/PUT /locations/1
   def update
     if @location.update(location_params)
-      render json: api_v1_locations_path(@location)
+      render json: @location, location: api_v1_locations_path(@location)
     else
       render json: @location.errors, status: :unprocessable_entity
     end
@@ -50,7 +54,12 @@ class Api::V1::LocationsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_location
-      @location = Location.find(params[:id])
+      # begin / rescue prevents ActiveRecord exception from halting (RSpec)
+      begin
+        @location = Location.find(params[:id])
+      rescue => exception
+        @location = nil
+      end
     end
 
     # Only allow a list of trusted parameters through.

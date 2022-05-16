@@ -19,13 +19,10 @@ RSpec.describe 'Items Api', type: :request do
     
     before { get '/api/v1/items' }
       
-      it 'returns items ' do
-        # puts "ITEMS == #{items}"
-        # puts "HERE IS THE RES UNPARSED #{response}"
-        # puts "HERE LIES JSON #{JSON.parse(response.body)}"
-      	expect(JSON.parse(response.body)).not_to be_empty
-      	expect(JSON.parse(response.body).size).to eq(10)
-      end
+    it 'returns items ' do
+      expect(JSON.parse(response.body)).not_to be_empty
+      expect(JSON.parse(response.body).size).to eq(10)
+    end
 	  
 	  it 'returns status code 200' do
 	  	expect(response).to have_http_status(200)
@@ -36,7 +33,6 @@ RSpec.describe 'Items Api', type: :request do
   describe "GET /items/:id" do
     
     before { get "/api/v1/items/#{item_id}" }
-
 
     context 'when the record exists' do
       it 'returns item' do
@@ -74,8 +70,9 @@ RSpec.describe 'Items Api', type: :request do
       end	
     end
 
-    context "when the request params are invalid" do
+    context "when the request is invalid" do
       before {post '/api/v1/items', params: {item: {name: 'Code Fuel', vendor: 'Mtn Brew', price: -8.99, description: 'gross, neon-green', category: 'Espresso', user_id: '1'}} }
+      
       it "returns status code 422" do
         expect(response).to have_http_status(422)
       end
@@ -90,7 +87,6 @@ RSpec.describe 'Items Api', type: :request do
       before { put "/api/v1/items/#{item_id}", params: valid_attributes }
       
       it "successfully updates record" do
-        # puts "HERE #{JSON.parse(response.body)}"
         expect(JSON.parse(response.body)['name']).to eq('Kicking Horse')
       end
       
@@ -99,13 +95,13 @@ RSpec.describe 'Items Api', type: :request do
       end	
     end
 
-    # context "when request attributes are invalid" do
-    #   before { put "/api/v1/items/#{item_id}", params: {name: nil} }
+    context "when request attributes are invalid" do
+      before { put "/api/v1/items/#{item_id}", params: { item: {name: nil}}}
       
-    #   it "returns status code 422" do
-    #     expect(response).to have_http_status(422)
-    #   end
-    # end
+      it "returns status code 422" do
+        expect(response).to have_http_status(422)
+      end
+    end
   end
 
 	# DELETE /items/:id - DESTROY

@@ -13,7 +13,7 @@ class Api::V1::ItemsController < ApplicationController
     if @item
       render json: @item
     else 
-      render json: 'NOPE', status: 404
+      render json: 'item does not exist', status: 404
     end
   end
 
