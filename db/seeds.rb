@@ -1,9 +1,12 @@
+require "rest-client"
+require "json"
 
 # -- LOCATIONS --
 
 new_york = Location.create(
   city: 'New York',
   state: 'NY',
+  country: 'US',
   zip: '10018',
   weather: ''
 )
@@ -11,6 +14,7 @@ new_york = Location.create(
 chicago = Location.create(
   city: 'Chicago',
   state: 'IL',
+  country: 'US',
   zip: '60657',
   weather: ''
 )
@@ -18,13 +22,15 @@ chicago = Location.create(
 ottawa = Location.create(
   city: 'Ottawa',
   state: 'ON',
-  zip: 'K2P 2L8',
+  country: 'CA',
+  zip: 'K2P',
   weather: ''
 )
 
 san_francisco = Location.create(
   city: 'San Francisco',
   state: 'CA',
+  country: 'US',
   zip: '94105',
   weather: ''
 )
@@ -32,6 +38,7 @@ san_francisco = Location.create(
 denver = Location.create(
   city: 'Denver',
   state: 'CO',
+  country: 'US',
   zip: '80205',
   weather: ''
 )
@@ -59,8 +66,8 @@ end
 
 location_ids = Location.all.map { |location| location.id }
 item_ids = Item.all.map { |item| item.id }
-# efficiency at scale hash?
 
+# Assumes seed inefficiency acceptable with arrays and nested iteration O(n^2), as it is only seeded once.
 
 # -- LOCATION ITEMS --
 location_ids.each do |loc_id|
@@ -72,7 +79,26 @@ location_ids.each do |loc_id|
     )
   end
 end
-# Assumes seed inefficiency acceptable with arrays and nested iteration O(n^2), as it is only seeded once.
+
+
+def get_weather(loc_id, location)
+  debugger
+  api_key = Rails.application.credentials.open_weather_api
+  zip_weather_url = "https://api.openweathermap.org/data/2.5/weather?zip=#{location.zip},#{location.country}&units=imperial&appid=#{api_key}"
+  res_weather = RestClient.get(zip_weather_url)
+  data = JSON.parse(res_weather.body, object_class: OpenStruct)
+  return "#{data.main.temp.round(0)} F, #{data.weather[0].description}"
+end
+  
+# -- LOCATIONS WEATHER --
+location_ids.each do |loc_id|
+  location = Location.find(loc_id)
+  weather_str = get_weather(loc_id, location)
+  
+  location.weather = weather_str
+  location.save
+end
+
 
 # -- ITEMS TOTAL --
 item_ids.each do |item_id|
@@ -86,6 +112,7 @@ item_ids.each do |item_id|
   item.quantity = total
   item.save
 end
+
 
 
   # t.string "name" # Faker::Coffee.blend_name #=> "Summer Solstice"

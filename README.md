@@ -20,6 +20,8 @@ DB queries (`rails console`)
 
 ## Location CRUD
 - Assumes new location starts with all possible inventory items set to `quantity: 0` to allow for easily editable totals across locations (front end). 
+- Canadian zip codes use only the 3-character "outwards" codes.
+- US zip codes use only the 5-digit numerical codes.
 
 
 ## General
