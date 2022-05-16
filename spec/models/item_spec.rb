@@ -1,11 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do 
-  subject(:item) do 
-    FactoryBot.create(:item)
-    # FactoryBot.create(:location)
-    # FactoryBot.create(:location_item)
-  end
+  subject(:item) { FactoryBot.create(:item) }
 
   describe "validations" do
     it do 
@@ -15,14 +11,14 @@ RSpec.describe Item, type: :model do
     end
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:price) } 
-    # it do 
-    #   should validate_presence_of(:quantity) 
-    #     .on(:update)
-    # end
+    it do 
+      should validate_numericality_of(:quantity) 
+        .on(:update)
+    end
   end
 
-  describe "associations" do 
+  # describe "associations" do 
     # it { should have_many{:location_items} }
     # it { should have_many{:locations}.through(:location_items) }
-  end  
+  # end  
 end
