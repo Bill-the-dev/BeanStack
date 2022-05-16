@@ -20,9 +20,13 @@ DB queries (`rails console`)
 
 ## Location CRUD
 - Assumes new location starts with all possible inventory items set to `quantity: 0` to allow for easily editable totals across locations (front end). 
+
+`Zip` 
 - Canadian zip codes use only the 3-character "outwards" codes.
 - US zip codes use only the 5-digit numerical codes.
 
+`Country` 
+- Use 2-character countru codes such as `CA` for Canada or `US` for the United States.  
 
 ## General
 - Created a `user_id` column with the intention of future user auth features.

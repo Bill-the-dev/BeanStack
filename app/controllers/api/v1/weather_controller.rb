@@ -5,7 +5,7 @@ class Api::V1::WeatherController < ApplicationController
 
   # /api/v1/locations/:location_id/weather
   def show
-    # debugger
+    debugger
     api_key = Rails.application.credentials.open_weather_api
     zip, country = @location.zip, @location.country
     
@@ -15,9 +15,10 @@ class Api::V1::WeatherController < ApplicationController
     @data = JSON.parse(res_weather.body, object_class: OpenStruct)
 
     weather_str = "#{@data.main.temp.round(0)} F, #{@data.weather[0].description}"
-    weather_icon = "http://openweathermap.org/img/wn/#{@data.weather[0].icon}@2x.png"
-    debugger
-    render json: @data
+    # weather_icon = "http://openweathermap.org/img/wn/#{@data.weather[0].icon}@2x.png"
+    # debugger
+    # render json: @data
+    render json: weather_str
   end 
 
   private
@@ -27,9 +28,9 @@ class Api::V1::WeatherController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def location_params
-      params.require(:location).permit(:city, :state, :country, :zip, :weather, :item_id)
-    end
+    # def location_params
+    #   params.require(:location).permit(:city, :state, :country, :zip, :weather, :item_id)
+    # end
 end
 
 
