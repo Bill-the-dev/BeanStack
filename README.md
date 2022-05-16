@@ -26,7 +26,12 @@ DB queries (`rails console`)
 - US zip codes use only the 5-digit numerical codes.
 
 `Country` 
-- Use 2-character countru codes such as `CA` for Canada or `US` for the United States.  
+- Use 2-character countru codes such as `CA` for Canada or `US` for the United States. 
+
+## Weather API
+- Opted not to use a `Weather` model for simplicities' sake.  I'm not sure if this is convention when making a simple external API call.  If there was more to be done I would have kept the 'big model, little controller' philosophy.
+- The API updates the weather data on inital seed and when explicitly called.  Next steps are to use jobs / caching to have the weather update every X minutes.
+
 
 ## General
 - Created a `user_id` column with the intention of future user auth features.

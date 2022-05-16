@@ -5,7 +5,6 @@ class Api::V1::WeatherController < ApplicationController
 
   # /api/v1/locations/:location_id/weather
   def show
-    debugger
     api_key = Rails.application.credentials.open_weather_api
     zip, country = @location.zip, @location.country
     
@@ -15,14 +14,12 @@ class Api::V1::WeatherController < ApplicationController
     @data = JSON.parse(res_weather.body, object_class: OpenStruct)
 
     weather_str = "#{@data.main.temp.round(0)} F, #{@data.weather[0].description}"
-    # weather_icon = "http://openweathermap.org/img/wn/#{@data.weather[0].icon}@2x.png"
-    # debugger
+
     # render json: @data
     render json: weather_str
   end 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_location
       @location = Location.find(params[:location_id])
     end
@@ -43,3 +40,5 @@ end
     # lat, lon = coords["lat"], coords["lon"]
 
     # coord_weather_url = "https://api.openweathermap.org/data/2.5/weather?lat=#{lat}&lon=#{lon}&units=imperial&appid=#{api_key}"
+
+    # weather_icon = "http://openweathermap.org/img/wn/#{@data.weather[0].icon}@2x.png"
