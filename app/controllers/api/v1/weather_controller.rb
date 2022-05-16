@@ -27,7 +27,7 @@ class Api::V1::WeatherController < ApplicationController
     # end
 end
 
-
+    # -- COORDINATES ALTERNATIVE --
     # Convert City, State, Country into coordinates
     # city, state, country = params[:city], params[:state], params[:country]
     # get_coord_url = "http://api.openweathermap.org/geo/1.0/direct?q=#{city},#{state},#{country}&limit=#{limit}&appid=#{api_key}"

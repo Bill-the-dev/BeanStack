@@ -82,12 +82,13 @@ end
 
 
 def get_weather(loc_id, location)
-  debugger
+  # debugger
   api_key = Rails.application.credentials.open_weather_api
   zip_weather_url = "https://api.openweathermap.org/data/2.5/weather?zip=#{location.zip},#{location.country}&units=imperial&appid=#{api_key}"
   res_weather = RestClient.get(zip_weather_url)
   data = JSON.parse(res_weather.body, object_class: OpenStruct)
-  return "#{data.main.temp.round(0)} F, #{data.weather[0].description}"
+  weather = { temp: data.main.temp.round(0), description: data.weather[0].description }
+  return weather
 end
   
 # -- LOCATIONS WEATHER --

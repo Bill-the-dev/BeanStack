@@ -14,7 +14,6 @@ RSpec.describe LocationItem, type: :model do
     # describe "::update_loc_count" do
     #   it 'should accept valid to and from ids'
     # end
-
   end
 
 

@@ -7,5 +7,9 @@ class Location < ApplicationRecord
     through: :location_items, 
     dependent: :destroy
 
-  # after_save :set_weather   
+  after_initialize :set_weather 
+
+  def set_weather
+  
+  end
 end
