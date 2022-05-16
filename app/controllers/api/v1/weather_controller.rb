@@ -1,22 +1,19 @@
 class Api::V1::WeatherController < ApplicationController
   require "rest-client"
-  require "json"
   before_action :set_location, only: %i[ show ]
 
   # /api/v1/locations/:location_id/weather
   def show
     api_key = Rails.application.credentials.open_weather_api
-    zip, country = @location.zip, @location.country
     
-    zip_weather_url = "https://api.openweathermap.org/data/2.5/weather?zip=#{zip},#{country}&units=imperial&appid=#{api_key}"
+    zip_weather_url = "https://api.openweathermap.org/data/2.5/weather?zip=#{@location.zip},#{@location.country}&units=imperial&appid=#{api_key}"
 
     res_weather = RestClient.get(zip_weather_url)
     @data = JSON.parse(res_weather.body, object_class: OpenStruct)
 
-    weather_str = "#{@data.main.temp.round(0)} F, #{@data.weather[0].description}"
+    weather = { temp: @data.main.temp.round(0), description: @data.weather[0].description }
 
-    # render json: @data
-    render json: weather_str
+    render json: weather
   end 
 
   private

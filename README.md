@@ -32,9 +32,22 @@ DB queries (`rails console`)
 - Opted not to use a `Weather` model for simplicities' sake.  I'm not sure if this is convention when making a simple external API call.  If there was more to be done I would have kept the 'big model, little controller' philosophy.
 - The API updates the weather data on inital seed and when explicitly called.  Next steps are to use jobs / caching to have the weather update every X minutes.
 
-
+## Move Item to/from Location
+- `LocationItem#self.update_loc_count` should this be called as a dedicated route?  Currently called through `rails c`.
+  - Does this validation work? `validates :quantity, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :update_loc_count`
 ## General
 - Created a `user_id` column with the intention of future user auth features.
+
+## RSpec Tests
+- Opted for `shoulda-matchers` gem, which allows one-line tests with more detailed errors.
+- `it { should validate_presence_of(:name) }` is equivalent to:
+  ```Ruby
+  it "should validate presence of name" do 
+    coffee1 = Item.new(quantity: 22, price: 12.99)
+    expect(coffee1.valid?).to be false
+  end
+  ```
+- `Item.quantity` is assigned AFTER making locations, items, and location_items by counting each matching `LocationItem` in each `Location`.  This should only validate when it is updated, considering an `item` is created without a `quantity` initially. `validates :quantity, on: :update`    
 
 
 
