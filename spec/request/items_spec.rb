@@ -49,13 +49,13 @@ RSpec.describe 'Items Api', type: :request do
       end
     end  
 
-    # context 'when the record does not exist' do  
-    #   let(:item_id){100}
+    context 'when the record does not exist' do  
+      let(:item_id){100}
       
-    #   it 'returns status code 404' do
-    #     expect(response).to_not render_template(:show)
-    #   end 	
-    # end	
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end 	
+    end	
   end
 
   # POST /items - CREATE 
@@ -74,12 +74,12 @@ RSpec.describe 'Items Api', type: :request do
       end	
     end
 
-    # context "when the request is invalid" do
-    #   before {post '/api/v1/items', params: {} }
-    #   it "returns status code 422" do
-    #     expect(response).to have_http_status(422)
-    #   end
-    # end	
+    context "when the request params are invalid" do
+      before {post '/api/v1/items', params: {item: {name: 'Code Fuel', vendor: 'Mtn Brew', price: -8.99, description: 'gross, neon-green', category: 'Espresso', user_id: '1'}} }
+      it "returns status code 422" do
+        expect(response).to have_http_status(422)
+      end
+    end	
   end
     
   # PUT /items/:id - UPDATE 
