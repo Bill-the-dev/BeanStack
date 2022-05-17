@@ -1,7 +1,9 @@
 # BeanStack Inventory Tracker
 
-Keep track of your coffee inventory!
-  
+Keep track of your coffee inventory!  
+
+[![Run on Repl.it](https://repl.it/badge/github/Bill-the-dev/BeanStack)](https://repl.it/github/Bill-the-dev/BeanStack)
+
 ## Installation
 
 Ruby 3.1.0
