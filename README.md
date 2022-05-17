@@ -1,7 +1,7 @@
 # BeanStack Inventory Tracking 
 
 ## Table of Contents
-
+  
 ## Installation
 
 Ruby 3.1.0
