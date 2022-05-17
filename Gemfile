@@ -6,8 +6,7 @@ ruby "3.0.3"
 gem "rails", "~> 7.0.3"
 gem "sqlite3", "~> 1.4"
 gem "puma", "~> 5.0"
-# gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
-  # replit issue with platforms option in ruby 3.0.3
+# gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ] # platforms conflict
 gem "tzinfo-data"
 gem "bootsnap", require: false
 gem "rest-client"
