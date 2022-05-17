@@ -2,8 +2,6 @@
 
 Keep track of your coffee inventory!  
 
-[![Run on Repl.it](https://repl.it/badge/github/Bill-the-dev/BeanStack)](https://repl.it/github/Bill-the-dev/BeanStack)
-
 ## Setup
 
 *Ruby 3.0.3 & Rails 7.0.3* 
