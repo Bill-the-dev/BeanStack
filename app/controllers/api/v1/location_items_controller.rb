@@ -25,7 +25,6 @@ class Api::V1::LocationItemsController < ApplicationController
   
   # PATCH/PUT /locations/1/location_items/1
   def update
-    debugger
     if @location_item.update(location_item_params)
       render json: api_v1_location_location_item_path(@location_item)
     else
@@ -35,9 +34,6 @@ class Api::V1::LocationItemsController < ApplicationController
   
   # DELETE only as item dependent destroy
   # # DELETE /locations/1/location_items/1
-  # def destroy
-  #   @location.destroy
-  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -47,7 +43,6 @@ class Api::V1::LocationItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def location_item_params
-      debugger
       params.require(:location_item).permit(:location_id, :item_id, :location_quantity) 
     end
 end

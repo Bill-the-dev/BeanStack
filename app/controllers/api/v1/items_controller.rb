@@ -19,7 +19,6 @@ class Api::V1::ItemsController < ApplicationController
 
   # POST /items
   def create
-    # debugger
     @item = Item.new(item_params)
 
     if @item.save
@@ -31,7 +30,6 @@ class Api::V1::ItemsController < ApplicationController
 
   # PATCH/PUT /items/1
   def update
-    # debugger
     if @item.update(item_params)
       # render json: @item # original
       render json: @item, location: api_v1_items_path(@item)

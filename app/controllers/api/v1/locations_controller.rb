@@ -24,7 +24,6 @@ class Api::V1::LocationsController < ApplicationController
     if @location.save
       item_ids = Item.all.map { |item| item.id }
       item_ids.each do |item_id|
-        # debugger
         LocationItem.create(
           location: Location.find(@location.id),
           item: Item.find(item_id),
@@ -65,7 +64,5 @@ class Api::V1::LocationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def location_params
       params.require(:location).permit(:city, :state, :country, :zip, :weather, :item_id)
-
-      # note: zip is type 'string' 
     end
 end

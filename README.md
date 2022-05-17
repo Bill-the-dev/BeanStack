@@ -36,10 +36,11 @@ Front end - React and Material UI [WIP]
 
 - Created using `rails new <project_name> --api`
   - Excludes any middleware / Action Controller modules primarily useful for browser applications and skips the 'front end' of `rails g` resource generators.  
+- Assume seed file inefficiency acceptable with nested iteration O(n^2), as it is only seeded once.
 
 
 ### Location CRUD
-- Assumes new location starts with all possible inventory items set to `quantity: 0` to allow for easily editable totals across locations (front end). 
+- Assumes new location starts with all possible inventory items set to `quantity: 0` to allow for easily editable totals across locations (likely front end). 
 
 - `Zip` 
   - Canadian zip codes use only the 3-character "outwards" codes.
@@ -57,19 +58,16 @@ Front end - React and Material UI [WIP]
 - Provided more time, I would validate item quantities to ensure parameter values and results are all poitive integers. Something along the lines of:
   `validates :quantity, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :update_loc_count`
 
-
-## General
-- Created a `user_id` column with the intention of future admin/user authentication and features.
-
-## RSpec Tests
-- Opted for `shoulda-matchers` gem, which allows one-line tests with more detailed errors.
-- `it { should validate_presence_of(:name) }` is equivalent to:
-  ```Ruby
-  it "should validate presence of name" do 
-    coffee1 = Item.new(quantity: 22, price: 12.99)
-    expect(coffee1.valid?).to be false
-  end
-  ```
+### RSpec Tests
+- Initial testing includes basic model-level validations and controller CRUD req/res.  More to come! 
+- Opted for `shoulda-matchers` gem for simple initial testing. Allows one-line tests with more detailed errors.
+  - `it { should validate_presence_of(:name) }` is equivalent to:
+    ```Ruby
+    it "should validate presence of name" do 
+      coffee1 = Item.new(quantity: 22, price: 12.99)
+      expect(coffee1.valid?).to be false
+    end
+    ```
 
   
 
