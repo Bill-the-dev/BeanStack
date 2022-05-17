@@ -7,9 +7,11 @@ class Location < ApplicationRecord
     through: :location_items, 
     dependent: :destroy
 
-  after_initialize :set_weather 
+  # `Item.quantity` is assigned AFTER making locations, items, and location_items by counting each matching `LocationItem` in each `Location`.  This should only validate when it is updated, considering an `item` is created without a `quantity` initially. `validates :quantity, on: :update` had unexpected behavior during testing and was removed.
 
-  def set_weather
+  # after_initialize :set_weather 
+
+  # def set_weather
   
-  end
+  # end
 end

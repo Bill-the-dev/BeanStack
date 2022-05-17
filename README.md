@@ -3,6 +3,10 @@
 ## Table of Contents
 
 ## Installation
+
+Ruby 3.1.0
+Rails 7.0.3 
+
 Install
 - Run `bundle install` to install all req'd gems
 - Run `bundle exec rails db:create` to start local database 
@@ -66,7 +70,8 @@ Front end - React and Material UI [WIP]
     expect(coffee1.valid?).to be false
   end
   ```
-- `Item.quantity` is assigned AFTER making locations, items, and location_items by counting each matching `LocationItem` in each `Location`.  This should only validate when it is updated, considering an `item` is created without a `quantity` initially. `validates :quantity, on: :update`    
+
+  
 
 
 DB queries (`bundle exec rails console`)
@@ -90,6 +95,21 @@ DB queries (`bundle exec rails console`)
 
 
 
+## Continued Development
+This was a fun project to tackle!  Going forward, my immediate priorities include strengthening validations at the model and db levels, continuing to expand RSpec testing, and learning how to incorporate Rails jobs.  On the front end I will continue to build components for all developed features.  
+
+- Validations will be more robust at the model and db levels.
+  - `Item.quantity` is assigned AFTER making locations, items, and location_items by counting each matching `LocationItem` in each `Location`.  This should only validate when it is updated, considering an `item` is created without a `quantity` initially. `validates :quantity, on: :update` 
+- Inventory utilization tools
+  - Inventory 'on-hand' v. 'ordered' with 'arrive by' at location
+  - Rate of sales, weeks of supply, cost analysis
+- User Authentication
+  - User signup, login, logout 
+  - Permissions for Admin v. User
+  - User group inventories (per company / organization)
+- Shipments and purchase order queue
+- Custom table columns (sizing, color, etc.)
+- AWS S3 hosting and ActiveStorage for product images
 
 
 
