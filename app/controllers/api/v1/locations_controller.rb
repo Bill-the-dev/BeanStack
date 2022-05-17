@@ -1,5 +1,5 @@
 class Api::V1::LocationsController < ApplicationController
-  before_action :set_location, only: %i[ show update destroy ]
+  before_action :set_location, only: %i[ show update destroy move_item]
 
   # GET /locations
   def index
@@ -49,6 +49,35 @@ class Api::V1::LocationsController < ApplicationController
   def destroy
     @location.destroy
   end
+
+  # MOVE LOCATION_ITEM
+  def move_item 
+    debugger
+    if Location.move_loc_item(params)
+      render json: "Successfully moved #{params[:value]} items from #{params[:from_id]} to #{params[:to_id]}", status: :ok 
+    else 
+      render json: 'Item movement not possible', status: :unprocessable_entity
+    end
+
+    # from_loc_item = LocationItem.find(from_id)
+    # to_loc_item = LocationItem.find(to_id)
+    
+    # if (
+    #   to_loc_item.item_id == from_loc_item.item_id && 
+    #   to_loc_item.location_id != from_loc_item.location_id
+    # )  
+    #   from_loc_item.location_quantity -= value
+    #   if from_loc_item.save!
+    #     to_loc_item.location_quantity += value
+    #     to_loc_item.save!
+    #   end
+    # end
+  end
+
+  # item ids must match, location ids must differ
+  # value int as number of items to move
+  # subtract from origin, from_id, update
+  # add to destination, to_id, update
 
   private
     # Use callbacks to share common setup or constraints between actions.

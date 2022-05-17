@@ -31,7 +31,7 @@ class Api::V1::LocationItemsController < ApplicationController
       render json: @location_item.errors, status: :unprocessable_entity
     end
   end
-  
+
   # DELETE only as item dependent destroy
   # # DELETE /locations/1/location_items/1
 
