@@ -1,6 +1,4 @@
 # BeanStack Inventory Tracking 
-
-## Table of Contents
   
 ## Installation
 
