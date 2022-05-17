@@ -52,26 +52,11 @@ class Api::V1::LocationsController < ApplicationController
 
   # MOVE LOCATION_ITEM
   def move_item 
-    debugger
     if Location.move_loc_item(params)
       render json: "Successfully moved #{params[:value]} items from #{params[:from_id]} to #{params[:to_id]}", status: :ok 
     else 
       render json: 'Item movement not possible', status: :unprocessable_entity
     end
-
-    # from_loc_item = LocationItem.find(from_id)
-    # to_loc_item = LocationItem.find(to_id)
-    
-    # if (
-    #   to_loc_item.item_id == from_loc_item.item_id && 
-    #   to_loc_item.location_id != from_loc_item.location_id
-    # )  
-    #   from_loc_item.location_quantity -= value
-    #   if from_loc_item.save!
-    #     to_loc_item.location_quantity += value
-    #     to_loc_item.save!
-    #   end
-    # end
   end
 
   # item ids must match, location ids must differ

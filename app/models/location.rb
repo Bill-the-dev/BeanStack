@@ -23,10 +23,15 @@ class Location < ApplicationRecord
       end
     end
   end
-  # item ids must match, location ids must differ
+
+  # MOVE LOCATION ITEMS PARAMS
+  # (from_id: 1, to_id: 26, value: 3)
+  # item ids must match, location ids must differ 
   # value int as number of items to move
   # subtract from origin, from_id, update
   # add to destination, to_id, update
 
-  # `Item.quantity` is assigned AFTER making locations, items, and location_items by counting each matching `LocationItem` in each `Location`.  This should only validate when it is updated, considering an `item` is created without a `quantity` initially. `validates :quantity, on: :update` had unexpected behavior during testing and was removed.
 end
+
+# [WIP] Quantity validations:
+# `Item.quantity` is assigned AFTER making locations, items, and location_items by counting each matching `LocationItem` in each `Location`.  This should only validate when it is updated, considering an `item` is created without a `quantity` initially. `validates :quantity, on: :update` had unexpected behavior during testing and was removed.
