@@ -1,4 +1,6 @@
-# BeanStack Inventory Tracking 
+# BeanStack Inventory Tracker
+
+Keep track of your coffee inventory!
   
 ## Installation
 
