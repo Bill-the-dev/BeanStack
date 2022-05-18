@@ -223,7 +223,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 5.0)
   rack-cors
-  rails (~> 7.0.3)
+  rails (= 7.0.3)
   rest-client
   rspec-rails
   shoulda-matchers
