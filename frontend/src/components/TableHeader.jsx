@@ -2,16 +2,20 @@ import React from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-// possible loadOnOpen, asychronous
-// https://mui.com/material-ui/react-autocomplete/#load-on-open
+
 
 export default function TableHeader() {
+  const [value, setValue] = React.useState(locations[0]);
   return (
     <Autocomplete
       autoHighlight
       disablePortal
       id="combo-box-location"
       options={locations}
+      value={value}
+      onChange={(event, newValue) => {
+        setValue(newValue);
+      }}
       sx={{ width: 300, marginBottom: "0.5rem" }}
       getOptionLabel={(option) => option.label }
       renderOption={(props, option) => (
@@ -46,6 +50,14 @@ const locations = [
   { label: 'Chicago, IL', country: 'US', id: 2 },
   { label: 'Denver, CO', country: 'US', id: 5 },
 ];
+
+// possible loadOnOpen, asychronous
+// possible checkbox or multi-select
+// https://mui.com/material-ui/react-autocomplete/#load-on-open
+
+// the "value" state with the value/onChange props combination. This state represents the value selected by the user, for instance when pressing Enter.
+
+
 
 // export default function TableHeader() {
 //   const [location, setLocation] = React.useState('');
