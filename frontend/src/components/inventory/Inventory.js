@@ -4,17 +4,18 @@ import ItemForm from './ItemForm';
 import { Button, Grid, Paper } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 const api_url = 'http://localhost:3001/api/v1/items';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 75 },
   { field: 'name', headerName: 'Name', editable: true, width: 150 },
-  { field: 'vendor', headerName: 'Vendor / Source', width: 150 },
-  { field: 'quantity', headerName: 'Quantity', width: 75 },
-  { field: 'price', headerName: 'Price', width: 75 },
-  { field: 'description', headerName: 'Description', width: 200 },
-  { field: 'category', headerName: 'Category', width: 150 },
+  { field: 'vendor', headerName: 'Vendor / Source', editable: true, width: 150 },
+  { field: 'quantity', headerName: 'Total Quantity', width: 125 },
+  { field: 'price', headerName: 'Price', editable: true, width: 75 },
+  { field: 'description', headerName: 'Description', editable: true, width: 200 },
+  { field: 'category', headerName: 'Category', editable: true, width: 150 },
   { field: 'user_id', headerName: 'User ID', width: 75 },
 ];
 
@@ -100,7 +101,14 @@ class Inventory extends Component {
             variant="outlined" 
             startIcon={<DeleteIcon />} 
             onClick={this.handleDeleteAll} 
+            sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }}
             >Delete
+          </Button>
+          <Button 
+            variant="outlined" 
+            startIcon={<LocalShippingIcon />} 
+            sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }} 
+            >Move Quantity
           </Button>
         </Grid>
         <Grid item xs={12} sx={{
@@ -123,8 +131,6 @@ class Inventory extends Component {
       </Grid>
     )
   }
-
-
 }
 
 export default Inventory;

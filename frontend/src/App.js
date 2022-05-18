@@ -1,5 +1,6 @@
 import './App.css';
-import Inventory from './inventory/Inventory';
+import Inventory from './components/inventory/Inventory';
+import TableHeader from './components/TableHeader';
 import { Typography, Paper } from "@mui/material";
 
 function App() {
@@ -9,7 +10,8 @@ function App() {
         <Typography variant="h1">BeanStack</Typography>
         <hr />
       </header>
-      <Paper elevation={3}>
+      <Paper elevation={3} sx={{p: "1rem"}}>
+        <TableHeader />
         <Inventory />
       </Paper>
       
