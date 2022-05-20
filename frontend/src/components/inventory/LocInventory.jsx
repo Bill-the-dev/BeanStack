@@ -1,58 +1,61 @@
 import React, {Component} from 'react';
 import axios from 'axios'
+import TableSelect from './TableSelect';
 import ItemForm from './ItemForm';
 import { Button, Grid, Paper } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
-const api_url = 'http://localhost:3001/api/v1/items';
+const api_url = 'http://localhost:3001/api/v1/';
+
+// location quantity edit should prompt a modal with current item quantities in all locations and a change or move option.
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 75 },
-  { field: 'name', headerName: 'Name', editable: true, width: 150 },
-  { field: 'vendor', headerName: 'Vendor / Source', editable: true, width: 150 },
-  { field: 'quantity', headerName: 'Total Quantity', width: 125 },
-  { field: 'price', headerName: 'Price', editable: true, width: 75 },
-  { field: 'description', headerName: 'Description', editable: true, width: 200 },
-  { field: 'category', headerName: 'Category', editable: true, width: 150 },
+  { field: 'name', headerName: 'Name', width: 150 },
+  { field: 'vendor', headerName: 'Vendor / Source', width: 150 },
+  { field: 'quantity', headerName: 'Location Quantity', width: 130 },
+  { field: 'price', headerName: 'Price', width: 75 },
+  { field: 'description', headerName: 'Description', width: 200 },
+  { field: 'category', headerName: 'Category', width: 150 },
   { field: 'user_id', headerName: 'User ID', width: 75 },
 ];
 
 
-class AllInventory extends Component {
+class LocInventory extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      items: [],
+      locItems: [],
       selected: []
     }
     this.updateInventory = this.updateInventory.bind(this)
     this.updateSelected = this.updateSelected.bind(this)
-    this.handleDeleteAll = this.handleDeleteAll.bind(this)
-    this.handleCommit = this.handleCommit.bind(this)
+    // this.handleDeleteAll = this.handleDeleteAll.bind(this)
+    // this.handleCommit = this.handleCommit.bind(this)
   }
 
   componentDidMount() {
     this.getItems()
   }
 
-  getItems() {
-    fetch(api_url)
+  getLocItems() {
+    fetch(`${api_url}/locations/${locId}`)
     .then(res => res.json())
-    .then(resItems => {
+    .then(resLocItems => {
       this.setState({
-        items: resItems
+        locItems: resLocItems
       })
     });
   }
 
   updateInventory(item) {
     // _underscore is temporary, ... duplicates and creates new array
-    let _items = [...this.state.items]
-    _items.push(item)
+    let _locItems = [...this.state.locItems]
+    _locItems.push(item)
     this.setState({
-      items: _items
+      items: _locItems
     })
   }
 
@@ -63,39 +66,42 @@ class AllInventory extends Component {
   }
 
   // CRUD - UPDATE FIELD
-  handleCommit(e) {
-    // console.log(e); // {id: 1, field: 'name', value: 'Evening Forrest'}
-    let data = {item: {[e.field]: e.value}}
-    let updateUrl = api_url + `/${e.id}`;
-    axios.patch(updateUrl, data)
-  }
+  // handleCommit(e) {
+  //   // console.log(e); // {id: 1, field: 'name', value: 'Evening Forrest'}
+  //   let data = {item: {[e.field]: e.value}}
+  //   let updateUrl = api_url + `/${e.id}`;
+  //   axios.patch(updateUrl, data)
+  // }
 
 
   // CRUD - DELETE SELECTED 
-  handleDeleteAll() {
-    let arrayIds = this.state.selected
-    for (let i = 0; i < arrayIds.length; i++) {
-      let id = arrayIds[i];
-      let deleteUrl = api_url + `/${id}`
-      // server-side delete
-      axios.delete(deleteUrl)
-      .then(() => {
-        let _items = [...this.state.items]
-        let _newItems = _items.filter(function(obj) {
-          return obj.id !== id 
-        });
-        this.setState({
-          items: _newItems
-        })
-      })
-    }
-  }
+  // handleDeleteAll() {
+  //   let arrayIds = this.state.selected
+  //   for (let i = 0; i < arrayIds.length; i++) {
+  //     let id = arrayIds[i];
+  //     let deleteUrl = api_url + `/${id}`
+  //     // server-side delete
+  //     axios.delete(deleteUrl)
+  //     .then(() => {
+  //       let _items = [...this.state.items]
+  //       let _newItems = _items.filter(function(obj) {
+  //         return obj.id !== id 
+  //       });
+  //       this.setState({
+  //         items: _newItems
+  //       })
+  //     })
+  //   }
+  // }
 
   render() {
     console.log(this.state.items)
     let items = this.state.items
     return (
       <Grid container spacing={3} direction="row" className='data-grid-container'>
+        <Grid item >
+          <TableSelect />
+        </Grid>
         <Grid item >
           <Button 
             variant="outlined" 
@@ -133,4 +139,4 @@ class AllInventory extends Component {
   }
 }
 
-export default AllInventory;
+export default LocInventory;

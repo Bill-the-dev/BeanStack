@@ -1,6 +1,6 @@
 import './App.css';
 import AllInventory from './components/inventory/AllInventory';
-import TableSelect from './components/TableSelect';
+import LocInventory from './components/inventory/LocInventory';
 import { Typography, Paper } from "@mui/material";
 
 function App() {
@@ -11,7 +11,6 @@ function App() {
         <hr />
       </header>
       <Paper elevation={3} sx={{p: "1rem"}}>
-        <TableSelect />
         {/* {
           switch (location) {
           case value:
@@ -21,8 +20,8 @@ function App() {
           default:
             break;
         }} */}
-        <AllInventory /> // this is index
-        // By Location Component to go here
+        <AllInventory /> 
+        <LocInventory />
       </Paper>
       
     </div>
