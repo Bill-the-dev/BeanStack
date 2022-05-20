@@ -20,7 +20,7 @@ const columns = [
 ];
 
 
-class Inventory extends Component {
+class AllInventory extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -125,7 +125,7 @@ class Inventory extends Component {
           />
         </Grid>
         <hr />
-        <Grid item xs={12} sx={{ m: "1rem"}}>
+        <Grid item xs={12} >
           <ItemForm api_url={api_url} updateInventory={this.updateInventory}/>
         </Grid>
       </Grid>
@@ -133,4 +133,4 @@ class Inventory extends Component {
   }
 }
 
-export default Inventory;
+export default AllInventory;

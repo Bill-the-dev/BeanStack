@@ -1,6 +1,6 @@
 import './App.css';
-import Inventory from './components/inventory/Inventory';
-import TableHeader from './components/TableHeader';
+import AllInventory from './components/inventory/AllInventory';
+import TableSelect from './components/TableSelect';
 import { Typography, Paper } from "@mui/material";
 
 function App() {
@@ -11,8 +11,17 @@ function App() {
         <hr />
       </header>
       <Paper elevation={3} sx={{p: "1rem"}}>
-        <TableHeader />
-        <Inventory />
+        <TableSelect />
+        {/* {
+          switch (location) {
+          case value:
+            
+            break;
+        
+          default:
+            break;
+        }} */}
+        <AllInventory />
       </Paper>
       
     </div>

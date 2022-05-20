@@ -1,11 +1,24 @@
-import React from 'react'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
 
-export default function TableHeader() {
-  const [value, setValue] = React.useState(locations[0]);
+export default function TableSelect() {
+  const [locations, setLocations] = useState([]);
+  const [value, setValue] = useState(locations[0]);
+
+  useEffect(() => {
+    let mounted = true;
+    getLocations().then((locations) => {
+      if (mounted) setLocations(locations);
+    });
+    console.log(locations)
+    return () => (mounted = false);
+  }, []);
+
+
   return (
     <Autocomplete
       autoHighlight
@@ -17,13 +30,14 @@ export default function TableHeader() {
         setValue(newValue);
       }}
       sx={{ width: 300, marginBottom: "0.5rem" }}
-      getOptionLabel={(option) => option.label }
+      getOptionLabel={(option) => option.label}
       renderOption={(props, option) => (
         <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-          {option.label} ({option.country})
+          {`${option.city}, ${option.state} ( ${option.country} )`}
           <img
             loading="lazy"
             width="20"
+            sx={{ p: "0.2rem" }}
             src={`https://flagcdn.com/w20/${option.country.toLowerCase()}.png`}
             srcSet={`https://flagcdn.com/w40/${option.country.toLowerCase()}.png 2x`}
             alt=""
@@ -31,25 +45,43 @@ export default function TableHeader() {
         </Box>
       )}
       renderInput={(params) => (
-        <TextField 
-          {...params} 
-          label="Locations"
+        <TextField
+          {...params}
+          label="Location"
           inputProps={{
             ...params.inputProps,
             autoComplete: 'new-password', // disable autocomplete and autofill
-          }}  
+          }}
         />)}
     />
   );
 }
 
-const locations = [
-  { label: 'New York, NY', country: 'US', id: 1 },
-  { label: 'San Francisco, CA', country: 'US', id: 4 },
-  { label: 'Ottawa, ON', country: 'CA', id: 3 },
-  { label: 'Chicago, IL', country: 'US', id: 2 },
-  { label: 'Denver, CO', country: 'US', id: 5 },
-];
+const api_url = 'http://localhost:3001/api/v1';
+
+// const locations = [
+//   { city: 'All Locations', state: '', country: ''},
+//   { city: 'New York', state: 'NY', country: 'US', id: 1 },
+//   { city: 'San Francisco', state: ' CA', country: 'US', id: 4 },
+//   { city: 'Ottawa', state: 'ON', country: 'CA', id: 3 },
+//   { city: 'Chicago', state: 'IL', country: 'US', id: 2 },
+//   { city: 'Denver', state: 'CO', country: 'US', id: 5 },
+// ];
+
+// const locations = getLocations();
+
+async function getLocations() {
+  return await axios.get(`${api_url}/locations`).then((res) => res.data);
+}
+
+// async function getLocations() {
+//   try {
+//     const res = await axios.get(`${api_url}/locations`);
+//     console.log(res)
+//   } catch (error) {
+//     console.log(error)
+//   }
+// } 
 
 // possible loadOnOpen, asychronous
 // possible checkbox or multi-select

@@ -48,7 +48,7 @@ class ItemForm extends Component {
   render() {
     return(
       <Paper elevation={3} sx={{ justifyContent: "center" }}>
-        <Typography variant="h4" sx={{ p:2 }} >Create Row</Typography>
+        <Typography variant="h4" sx={{ p:2 }} >Create Item</Typography>
         <form
           onSubmit={this.handleSubmit}
           id='item-form'

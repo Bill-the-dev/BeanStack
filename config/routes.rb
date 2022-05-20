@@ -10,5 +10,5 @@ Rails.application.routes.draw do
     end
   end
   # Defines the root path route ("/")
-  root to: "items#index"
+  root to: "api/v1/items#index"
 end
