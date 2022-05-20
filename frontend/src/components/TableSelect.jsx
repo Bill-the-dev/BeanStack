@@ -47,7 +47,7 @@ export default function TableSelect() {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Location"
+          label="Select Location"
           inputProps={{
             ...params.inputProps,
             autoComplete: 'new-password', // disable autocomplete and autofill
@@ -74,14 +74,6 @@ async function getLocations() {
   return await axios.get(`${api_url}/locations`).then((res) => res.data);
 }
 
-// async function getLocations() {
-//   try {
-//     const res = await axios.get(`${api_url}/locations`);
-//     console.log(res)
-//   } catch (error) {
-//     console.log(error)
-//   }
-// } 
 
 // possible loadOnOpen, asychronous
 // possible checkbox or multi-select

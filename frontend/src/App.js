@@ -21,7 +21,8 @@ function App() {
           default:
             break;
         }} */}
-        <AllInventory />
+        <AllInventory /> // this is index
+        // By Location Component to go here
       </Paper>
       
     </div>
