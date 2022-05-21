@@ -37,17 +37,17 @@ class LocInventory extends Component {
   }
 
   componentDidMount() {
-    this.getItems()
+    this.getLocItems()
   }
 
   getLocItems() {
-    fetch(`${api_url}/locations/${locId}`)
-    .then(res => res.json())
-    .then(resLocItems => {
-      this.setState({
-        locItems: resLocItems
-      })
-    });
+    // fetch(`${api_url}/locations/${locId}/location_items`)
+    // .then(res => res.json())
+    // .then(resLocItems => {
+    //   this.setState({
+    //     locItems: resLocItems
+    //   })
+    // });
   }
 
   updateInventory(item) {
@@ -95,12 +95,12 @@ class LocInventory extends Component {
   // }
 
   render() {
-    console.log(this.state.items)
-    let items = this.state.items
+    console.log(this.state.locItems)
+    let locItems = this.state.locItems
     return (
       <Grid container spacing={3} direction="row" className='data-grid-container'>
         <Grid item >
-          <TableSelect />
+          <TableSelect handleChange={this.handleChange}/>
         </Grid>
         <Grid item >
           <Button 
@@ -121,9 +121,9 @@ class LocInventory extends Component {
           height: "60vh",
         }}>
           <DataGrid
-            rows={items}
+            rows={locItems}
             columns={columns}
-            loading={!items.length}
+            loading={!locItems.length}
             checkboxSelection
             onSelectionModelChange={(data) => this.updateSelected(data)}
             onCellEditCommit={this.handleCommit}
