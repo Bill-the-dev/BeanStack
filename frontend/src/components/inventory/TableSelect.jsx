@@ -26,7 +26,8 @@ export default function TableSelect() {
       id="combo-box-location"
       options={locations}
       value={value}
-      onChange={(event, newValue) => {
+      onChange={(e, newValue) => {
+        console.log(e.target.value)
         setValue(newValue);
       }}
       sx={{ width: 300, marginBottom: "0.5rem" }}
