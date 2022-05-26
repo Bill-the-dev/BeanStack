@@ -8,13 +8,15 @@ import Autocomplete from '@mui/material/Autocomplete';
 export default function TableSelect() {
   const [locations, setLocations] = useState([]);
   const [value, setValue] = useState(locations[0]);
+  // const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     let mounted = true;
-    getLocations().then((locations) => {
-      if (mounted) setLocations(locations);
+    getLocations().then((result) => {
+      if (mounted) setLocations(result);
+      console.log(result)
     });
-    console.log(locations)
+    // console.log(locations)
     return () => (mounted = false);
   }, []);
 
@@ -25,13 +27,18 @@ export default function TableSelect() {
       disablePortal
       id="combo-box-location"
       options={locations}
+      defaultValue={value}
       value={value}
       onChange={(e, newValue) => {
         console.log(e.target.value)
         setValue(newValue);
       }}
+      // inputValue={inputValue}
+      // onInputChange={(_, newInputValue) => {
+      //   setInputValue(newInputValue);
+      // }}
       sx={{ width: 300, marginBottom: "0.5rem" }}
-      getOptionLabel={(option) => option.label}
+      getOptionLabel={(option) => option.city}
       renderOption={(props, option) => (
         <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
           {`${option.city}, ${option.state} ( ${option.country} )`}

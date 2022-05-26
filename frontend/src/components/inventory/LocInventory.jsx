@@ -44,24 +44,30 @@ function LocInventory() {
     axios.patch(updateUrl, data);
   };
 
+  const handleLocChange = (e) => {
+    setLocId(e.target.value)
+  }
 
   return (
     <Grid container spacing={3} direction="row" className='data-grid-container'>
-      {/* <Grid item >
-        <Button
+      <Grid item >
+        <TableSelect handleLocChange={handleLocChange} />
+      </Grid>
+      <Grid item >
+        {/* <Button
           variant="outlined"
           startIcon={<DeleteIcon />}
           onClick={handleDeleteAll}
           sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }}
         >Delete
-        </Button>
+        </Button> */}
         <Button
           variant="outlined"
           startIcon={<LocalShippingIcon />}
           sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }}
         >Move Quantity
         </Button>
-      </Grid> */}
+      </Grid>
       <Grid item xs={12} sx={{
         height: "60vh",
       }}>
