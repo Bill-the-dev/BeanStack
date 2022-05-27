@@ -23,35 +23,43 @@ const columns = [
 ];
 
 function LocInventory() {
-  const [locId, setLocId] = useState(0);  // defaults to location?
+  const [apiUrlLoc, setApiUrlLoc] = useState('');
   const [locItems, setLocItems] = useState([]);
   const [selected, setSelected] = useState([]);
 
-  let api_url_loc = `${api_url}/locations/${locId}/location_items`;
+  const setLocUrl = (value) => {
+    setApiUrlLoc(`${api_url}/locations/${value}/location_items`)
+  }
+
+  // let apiUrlLoc = `${api_url}/locations/${locId}/location_items`;
 
   useEffect(() => {
-    async function fetchLocItems () {
-      const result = await axios(api_url_loc);
-      setLocItems(result.data);
-    };
-    fetchLocItems();
-  }, []);
+    if (apiUrlLoc !== '') {
+      axios(apiUrlLoc)
+        .then((result) => {
+          console.log(result.data)
+          return setLocItems(result.data)
+        })
+    }
+    // console.log(result.data)
+  }, [apiUrlLoc]);  
 
   // CRUD - UPDATE FIELD
   const handleCommit = (e) => {
     let data = { item: { [e.field]: e.value } };
-    let updateUrl = api_url_loc + `/${e.id}`;
+    let updateUrl = apiUrlLoc + `/${e.id}`;
     axios.patch(updateUrl, data);
   };
 
-  const handleLocChange = (e) => {
-    setLocId(e.target.value)
-  }
+  // const handleLocChange = (e) => {
+  //   setLocId(e.target.value)
+  // }
 
   return (
     <Grid container spacing={3} direction="row" className='data-grid-container'>
       <Grid item >
-        <TableSelect handleLocChange={handleLocChange} />
+        {/* <TableSelect handleLocChange={handleLocChange} /> */}
+        <TableSelect setLocUrl={setLocUrl}/>
       </Grid>
       <Grid item >
         {/* <Button
