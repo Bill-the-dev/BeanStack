@@ -6,17 +6,32 @@ import { Button, Grid, Paper } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import { merge } from 'lodash';
 
 const api_url = 'http://localhost:3001/api/v1/';
-
 // location quantity edit should prompt a modal with current item quantities in all locations and a change or move option.
+// const getLocQuantity = (params) => {
+//   debugger
+//   let itemId = params.row.id // id of current item
+// };
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 75 },
   { field: 'name', headerName: 'Name', width: 150 },
   { field: 'vendor', headerName: 'Vendor / Source', width: 150 },
-  { field: 'quantity', headerName: 'Location Quantity', width: 130 },
-  { field: 'price', headerName: 'Price', width: 75 },
+  { field: 'location_quantity', headerName: 'Location Quantity', width: 130, align: 'center', headerAlign: 'center' },
+  { field: 'quantity', headerName: 'Total Quantity', width: 130, align: 'center', headerAlign: 'center' },
+  {
+    field: 'price', headerName: 'Price', editable: true, width: 75,
+    valueFormatter: (params) => {
+      if (params.value == null) {
+        return '';
+      }
+
+      const valueFormatted = Number(params.value).toFixed(2).toLocaleString();
+      return `$${valueFormatted}`;
+    },
+  },
   { field: 'description', headerName: 'Description', width: 200 },
   { field: 'category', headerName: 'Category', width: 150 },
   { field: 'user_id', headerName: 'User ID', width: 75 },
@@ -25,24 +40,59 @@ const columns = [
 function LocInventory() {
   const [apiUrlLoc, setApiUrlLoc] = useState('');
   const [locItems, setLocItems] = useState([]);
+  const [items, setItems] = useState([]);
+  const [gridData, setGridData] = useState([])
   const [selected, setSelected] = useState([]);
 
   const setLocUrl = (value) => {
-    setApiUrlLoc(`${api_url}/locations/${value}/location_items`)
-  }
+    setApiUrlLoc(`${api_url}/locations/${value}/location_items`);
+  };
 
-  // let apiUrlLoc = `${api_url}/locations/${locId}/location_items`;
+  // GET items on mount
+  useEffect(() => {
+    async function fetchItems() {
+      const result = await axios(`${api_url}/items`);
+      setItems(result.data);
+      console.log(result.data);
+    }
+    fetchItems();
+  }, []);
 
+  // GET locItems and assign
   useEffect(() => {
     if (apiUrlLoc !== '') {
       axios(apiUrlLoc)
         .then((result) => {
-          console.log(result.data)
-          return setLocItems(result.data)
-        })
+          console.log(result.data);
+          return setLocItems(result.data);
+        });
+        // mergeLocData()
     }
-    // console.log(result.data)
-  }, [apiUrlLoc]);  
+  }, [apiUrlLoc]);
+
+  // 
+  // Two dependencies will run when EITHER changes
+  useEffect(() => {
+    if (locItems && items) {
+      mergeLocData()
+    }
+  }, [items, locItems])
+  
+  
+  // locItems and items lenght are always in parallel
+  const mergeLocData = () => {
+    let mergeData = []
+    for (let i = 0; i < locItems.length; i++) {
+      const locItemQuantity = {location_quantity: locItems[i].location_quantity};
+      const item = items[i];
+      let locItemMerged = Object.assign(item, locItemQuantity);
+      mergeData.push(locItemMerged)
+      console.log(mergeData);
+    }
+    setGridData(mergeData)
+  }
+
+
 
   // CRUD - UPDATE FIELD
   const handleCommit = (e) => {
@@ -51,24 +101,40 @@ function LocInventory() {
     axios.patch(updateUrl, data);
   };
 
-  // const handleLocChange = (e) => {
-  //   setLocId(e.target.value)
-  // }
+  // const getLocQuantity = (params) => {
+  //   // debugger;
+  //   let itemId = params.row.id; // id of current item
 
+
+  // };
+
+  // const columns = [
+  //   { field: 'id', headerName: 'ID', width: 75 },
+  //   { field: 'name', headerName: 'Name', width: 150 },
+  //   { field: 'vendor', headerName: 'Vendor / Source', width: 150 },
+  //   { field: 'location_quantity', headerName: 'Location Quantity', width: 130, align: 'center', headerAlign: 'center' },
+  //   { field: 'quantity', headerName: 'Total Quantity', width: 130, align: 'center', headerAlign: 'center' },
+  //   { field: 'price', headerName: 'Price', editable: true, width: 75, 
+  //     valueFormatter: (params) => {
+  //       if (params.value == null) {
+  //         return '';
+  //       }
+
+  //       const valueFormatted = Number(params.value).toFixed(2).toLocaleString();
+  //       return `$${valueFormatted}`;
+  //     },
+  //   },
+  //   { field: 'description', headerName: 'Description', width: 200 },
+  //   { field: 'category', headerName: 'Category', width: 150 },
+  //   { field: 'user_id', headerName: 'User ID', width: 75 },
+  // ];
+  // debugger
   return (
     <Grid container spacing={3} direction="row" className='data-grid-container'>
       <Grid item >
-        {/* <TableSelect handleLocChange={handleLocChange} /> */}
-        <TableSelect setLocUrl={setLocUrl}/>
+        <TableSelect setLocUrl={setLocUrl} />
       </Grid>
       <Grid item >
-        {/* <Button
-          variant="outlined"
-          startIcon={<DeleteIcon />}
-          onClick={handleDeleteAll}
-          sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }}
-        >Delete
-        </Button> */}
         <Button
           variant="outlined"
           startIcon={<LocalShippingIcon />}
@@ -79,146 +145,23 @@ function LocInventory() {
       <Grid item xs={12} sx={{
         height: "60vh",
       }}>
-        <DataGrid
-          rows={locItems}
+        { locItems
+        ? <DataGrid
+          // locItems={locItems}
+          rows={gridData}
           columns={columns}
-          loading={!locItems.length}
+          loading={!items.length && !locItems.length}
           checkboxSelection
           onSelectionModelChange={(data) => setSelected(data)}
           onCellEditCommit={handleCommit}
           rowsPerPageOptions={[10, 50, 100]}
         />
+        : <></>
+        }
       </Grid>
       <hr />
     </Grid>
   );
-
-
 }
 
 export default LocInventory;
-
-// class LocInventory extends Component {
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       locationId: null, 
-//       locItems: [],
-//       selected: []
-//     }
-//     this.updateInventory = this.updateInventory.bind(this)
-//     this.updateSelected = this.updateSelected.bind(this)
-//     // this.handleDeleteAll = this.handleDeleteAll.bind(this)
-//     // this.handleCommit = this.handleCommit.bind(this)
-//   }
-
-//   componentDidMount() {
-//     this.getLocItems()
-//   }
-
-//   getLocItems() {
-//     // fetch(`${api_url}/locations/${locId}/location_items`)
-//     // .then(res => res.json())
-//     // .then(resLocItems => {
-//     //   this.setState({
-//     //     locItems: resLocItems
-//     //   })
-//     // });
-//   }
-
-//   updateInventory(item) {
-//     // _underscore is temporary, ... duplicates and creates new array
-//     let _locItems = [...this.state.locItems]
-//     _locItems.push(item)
-//     this.setState({
-//       items: _locItems
-//     })
-//   }
-
-//   updateSelected(data) {
-//     this.setState({
-//       selected: data
-//     })
-//   }
-
-//   // CRUD - UPDATE FIELD
-//   // handleCommit(e) {
-//   //   // console.log(e); // {id: 1, field: 'name', value: 'Evening Forrest'}
-//   //   let data = {item: {[e.field]: e.value}}
-//   //   let updateUrl = api_url + `/${e.id}`;
-//   //   axios.patch(updateUrl, data)
-//   // }
-
-
-//   // CRUD - DELETE SELECTED 
-//   // handleDeleteAll() {
-//   //   let arrayIds = this.state.selected
-//   //   for (let i = 0; i < arrayIds.length; i++) {
-//   //     let id = arrayIds[i];
-//   //     let deleteUrl = api_url + `/${id}`
-//   //     // server-side delete
-//   //     axios.delete(deleteUrl)
-//   //     .then(() => {
-//   //       let _items = [...this.state.items]
-//   //       let _newItems = _items.filter(function(obj) {
-//   //         return obj.id !== id 
-//   //       });
-//   //       this.setState({
-//   //         items: _newItems
-//   //       })
-//   //     })
-//   //   }
-//   // }
-
-//   handleLocChange() {
-//     // this.setState({
-//     //   location: e.target.value
-//     // })
-//   }
-
-//   render() {
-//     console.log(this.state.locItems)
-//     let locItems = this.state.locItems
-//     return (
-//       <Grid container spacing={3} direction="row" className='data-grid-container'>
-//         <Grid item >
-//           <TableSelect handleLocChange={this.handleLocChange}/>
-//         </Grid>
-//         <Grid item >
-//           <Button 
-//             variant="outlined" 
-//             startIcon={<DeleteIcon />} 
-//             onClick={this.handleDeleteAll} 
-//             sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }}
-//             >Delete
-//           </Button>
-//           <Button 
-//             variant="outlined" 
-//             startIcon={<LocalShippingIcon />} 
-//             sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }} 
-//             >Move Quantity
-//           </Button>
-//         </Grid>
-//         <Grid item xs={12} sx={{
-//           height: "60vh",
-//         }}>
-//           <DataGrid
-//             rows={locItems}
-//             columns={columns}
-//             loading={!locItems.length}
-//             checkboxSelection
-//             onSelectionModelChange={(data) => this.updateSelected(data)}
-//             onCellEditCommit={this.handleCommit}
-//             rowsPerPageOptions={[10, 50, 100]}
-//           />
-//         </Grid>
-//         <hr />
-//         <Grid item xs={12} >
-//           <ItemForm api_url={api_url} updateInventory={this.updateInventory}/>
-//         </Grid>
-//       </Grid>
-//     )
-//   }
-// }
-
-// export default LocInventory;

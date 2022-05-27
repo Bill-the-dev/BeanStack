@@ -8,6 +8,7 @@ class Api::V1::LocationItemsController < ApplicationController
   end
 
   # GET /locations/1/location_items/1
+  # jBuilder?
   def show
     render json: @location_item
   end

@@ -6,38 +6,33 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 
 export default function TableSelect(props) {
-  const { setLocUrl } = props
+  const { setLocUrl } = props;
   const [locations, setLocations] = useState([]);
-  const [value, setValue] = useState(''); 
+  const [value, setValue] = useState('');
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     getLocations()
       .then((result) => {
         setLocations(result);
-        console.log(result)
-        return result
+        console.log(result);
+        return result;
       })
       .then((result) => {
-        debugger
         setValue(result[0]);
-        setInputValue(result[0].city)
-      })
-      debugger
-    // console.log(locations)
+        setInputValue(result[0].city);
+      });
   }, []);
 
   useEffect(() => {
-    debugger
     if (value !== '') {
-      debugger
       setLocUrl(value.id);
     }
   }, [value]);
 
   // Ensure request is complete
   if (!locations.length) {
-    return (null)
+    return (null);
   } else {
 
     return (
@@ -83,60 +78,10 @@ export default function TableSelect(props) {
       />
     );
   }
-
-
 }
 
 const api_url = 'http://localhost:3001/api/v1';
 
-// const locations = [
-//   { city: 'All Locations', state: '', country: ''},
-//   { city: 'New York', state: 'NY', country: 'US', id: 1 },
-//   { city: 'San Francisco', state: ' CA', country: 'US', id: 4 },
-//   { city: 'Ottawa', state: 'ON', country: 'CA', id: 3 },
-//   { city: 'Chicago', state: 'IL', country: 'US', id: 2 },
-//   { city: 'Denver', state: 'CO', country: 'US', id: 5 },
-// ];
-
-// const locations = getLocations();
-
 async function getLocations() {
   return await axios.get(`${api_url}/locations`).then((res) => res.data);
 }
-
-
-// possible loadOnOpen, asychronous
-// possible checkbox or multi-select
-// https://mui.com/material-ui/react-autocomplete/#load-on-open
-
-// the "value" state with the value/onChange props combination. This state represents the value selected by the user, for instance when pressing Enter.
-
-
-
-// export default function TableHeader() {
-//   const [location, setLocation] = React.useState('');
-
-//   const handleChange = (event) => {
-//     setLocation(event.target.value);
-//   };
-
-//   return (
-//     <Box sx={{ minWidth: 120, p: "0.5rem" }}>
-//       <FormControl fullWidth >
-//         <InputLabel id="demo-simple-select-label">Location</InputLabel>
-//         <Select
-//           labelId="demo-simple-select-label"
-//           id="demo-simple-select"
-//           value={location}
-//           label="Location"
-//           onChange={handleChange}
-//           // sx={{ m: "0.5rem" }}
-//         >
-//           <MenuItem value={10}>All Locations</MenuItem>
-//           <MenuItem value={20}>Twenty</MenuItem>
-//           <MenuItem value={30}>Thirty</MenuItem>
-//         </Select>
-//       </FormControl>
-//     </Box>
-//   );
-// }

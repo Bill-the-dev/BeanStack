@@ -11,8 +11,16 @@ const columns = [
   { field: 'id', headerName: 'ID', width: 75 },
   { field: 'name', headerName: 'Name', editable: true, width: 150 },
   { field: 'vendor', headerName: 'Vendor / Source', editable: true, width: 150 },
-  { field: 'quantity', headerName: 'Total Quantity', width: 130 },
-  { field: 'price', headerName: 'Price', editable: true, width: 75 },
+  { field: 'quantity', headerName: 'Total Quantity', width: 130, align: 'center', headerAlign: 'center' },
+  { field: 'price', headerName: 'Price', editable: true, width: 75,
+    valueFormatter: (params) => {
+      if (params.value == null) {
+        return '';
+      }
+
+      const valueFormatted = Number(params.value).toFixed(2).toLocaleString();
+      return `$${valueFormatted}`;
+    }, },
   { field: 'description', headerName: 'Description', editable: true, width: 200 },
   { field: 'category', headerName: 'Category', editable: true, width: 150 },
   { field: 'user_id', headerName: 'User ID', width: 75 },
@@ -56,10 +64,7 @@ function AllInventory() {
         setItems(_newItems)
       })
     }
-
   }
-
-//   }
   
   return(
     <Grid container spacing={3} direction="row" className='data-grid-container'>
