@@ -69,19 +69,19 @@ function AllInventory() {
   return(
     <Grid container spacing={3} direction="row" className='data-grid-container'>
       <Grid item >
-        <Button
+        {/* <Button
           variant="outlined"
           startIcon={<DeleteIcon />}
           onClick={handleDeleteAll}
           sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }}
         >Delete
-        </Button>
-        <Button
+        </Button> */}
+        {/* <Button
           variant="outlined"
           startIcon={<LocalShippingIcon />}
           sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }}
         >Move Quantity
-        </Button>
+        </Button> */}
       </Grid>
       <Grid item xs={12} sx={{
         height: "60vh",

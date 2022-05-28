@@ -73,6 +73,7 @@ export default function TableSelect(props) {
             label="Select Location"
             inputProps={{
               ...params.inputProps,
+              style: { fontSize: "1.4rem" },
               autoComplete: 'new-password', // disable autocomplete and autofill, some browsers may suggest a 'strong password' with this option.
             }}
           />)

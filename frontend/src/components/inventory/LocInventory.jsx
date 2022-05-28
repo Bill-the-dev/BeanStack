@@ -9,6 +9,8 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 import AddBoxIcon from '@mui/icons-material/AddBox';
 
+
+
 const api_url = 'http://localhost:3001/api/v1/';
 // location quantity edit should prompt a modal with current item quantities in all locations and a change or move option.
 
@@ -95,38 +97,59 @@ function LocInventory() {
     axios.patch(updateUrl, data);
   };
 
+  // CRUD - DELETE SELECTED 
+  const handleDeleteAll = () => {
+    // let arrayIds = this.state.selected
+    for (let i = 0; i < selected.length; i++) {
+      let id = selected[i];
+      let deleteUrl = api_url + `/items/${id}`;
+      // server-side delete
+      axios.delete(deleteUrl)
+        .then(() => {
+          let _items = [...items];
+          let _newItems = _items.filter(function (obj) {
+            return obj.id !== id;
+          });
+          setItems(_newItems);
+        });
+    }
+  }
+
   return (
-    <Grid container spacing={2} direction="row" className='data-grid-container'>
-      <Grid item xs={6} s={6}>
+    <Grid container spacing={2} direction="row" justifyContent="space-between" className='data-grid-container'>
+      <Grid item xs={12} >
         <TableSelect setLocUrl={setLocUrl} />
       </Grid>
-      <Grid item xs={6} s={6}>
+      <Grid item xs={4}>
         <Weather apiUrlLoc={apiUrlLoc}/>
       </Grid>
-      {/* <Grid item >
+      <Grid item alignSelf="flex-end">
         <Button
           variant="outlined"
           startIcon={<LocalShippingIcon />}
           sx={{ mb: "0.5rem", mr: "0.5rem", height: "%" }}
         >Move Item
         </Button>
-      </Grid>
-      <Grid item >
         <Button
           variant="outlined"
           startIcon={<AddBoxIcon />}
           sx={{ mb: "0.5rem", mr: "0.5rem", height: "%" }}
         >Create Item
         </Button>
-      </Grid>
-      <Grid item >
         <Button
           variant="outlined"
           startIcon={<WarehouseIcon />}
           sx={{ mb: "0.5rem", mr: "0.5rem", height: "%" }}
         >Create Location
         </Button>
-      </Grid> */}
+        <Button
+          variant="outlined"
+          startIcon={<DeleteIcon />}
+          onClick={handleDeleteAll}
+          sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }}
+        >Delete
+        </Button>
+      </Grid>
       <Grid item xs={12} sx={{
         height: "60vh",
       }}>
@@ -169,14 +192,16 @@ function Weather(props) {
       variant='outlined'
       sx={{p: "1rem"}}
     >
-      <Grid container>
+      {/* <Grid container direction="row" alignContent="right"> */}
+      <Grid container direction="row" justifyContent="space-around" alignItems="right">
         <Grid item xs={12}>
-          <Typography variant="h5">Current Weather</Typography>
+          <Typography variant="h5" sx={{ mt: "0.2rem", mb: "1rem"}}>Current Weather</Typography>
+        </Grid>
+        <Grid item xs={6} >
+          <Typography variant="h2" sx={{ p: "1rem", pt: "1.6rem" }}>{weather.temp}&deg;F</Typography>
         </Grid>
         <Grid item xs={6}>
-          <Typography variant="h3">{weather.temp}&deg;F</Typography>
-        </Grid>
-        <Grid item xs={6}>
+          <img src={weather.icon} alt="weather-icon" />
           <Typography variant="h6">{weather.description}</Typography>
         </Grid>
       </Grid>
