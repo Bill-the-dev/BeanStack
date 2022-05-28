@@ -26,8 +26,10 @@ function LocInventory() {
   const [gridData, setGridData] = useState([])
   const [selected, setSelected] = useState([]);
   const [open, setOpen] = useState(false);
+  const [type, setType] = useState('')
   
   const handleOpen = (type) => {
+    setType(type)
     setOpen(true);
   }
   const handleClose = () => setOpen(false);
@@ -106,7 +108,7 @@ function LocInventory() {
 
   return (
     <Grid container spacing={2} direction="row" justifyContent="space-between" className='data-grid-container'>
-      <BasicModal open={open} handleClose={handleClose}/>
+      <BasicModal open={open} handleClose={handleClose} type={type}/>
       <Grid item xs={12} >
         <TableSelect setLocUrl={setLocUrl} />
       </Grid>
@@ -132,6 +134,7 @@ function LocInventory() {
           variant="outlined"
           startIcon={<WarehouseIcon />}
           sx={{ mb: "0.5rem", mr: "0.5rem", height: "%" }}
+          onClick={() => handleOpen('createLocation')}
         >Create Location
         </Button>
         <Button
