@@ -10,8 +10,8 @@ class Api::V1::WeatherController < ApplicationController
 
     res_weather = RestClient.get(zip_weather_url)
     @data = JSON.parse(res_weather.body, object_class: OpenStruct)
-
-    weather = { temp: @data.main.temp.round(0), description: @data.weather[0].description }
+    weather_icon = "http://openweathermap.org/img/wn/#{@data.weather[0].icon}@2x.png"
+    weather = { temp: @data.main.temp.round(0), description: @data.weather[0].description, icon: weather_icon }
 
     render json: weather
   end 
@@ -38,4 +38,4 @@ end
 
     # coord_weather_url = "https://api.openweathermap.org/data/2.5/weather?lat=#{lat}&lon=#{lon}&units=imperial&appid=#{api_key}"
 
-    # weather_icon = "http://openweathermap.org/img/wn/#{@data.weather[0].icon}@2x.png"
+    

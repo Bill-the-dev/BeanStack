@@ -39,6 +39,7 @@ export default function TableSelect(props) {
       <Autocomplete
         autoHighlight
         disablePortal
+        disableClearable
         id="combo-box-location"
         options={locations}
         value={value}
@@ -50,8 +51,9 @@ export default function TableSelect(props) {
         onInputChange={(e, newInputValue) => {
           setInputValue(newInputValue);
         }}
-        sx={{ width: 300, marginBottom: "0.5rem" }}
-        getOptionLabel={(option) => option.city}
+        sx={{ marginBottom: "0.5rem" }}
+        // getOptionLabel={(option) => option.city}
+        getOptionLabel={(option) => `${option.city}, ${option.state}` }
         renderOption={(props, option) => (
           <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
             {`${option.city}, ${option.state} ( ${option.country} )`}
