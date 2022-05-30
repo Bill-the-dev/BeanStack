@@ -1,6 +1,7 @@
 import * as React from 'react';
-import ItemForm from './ItemForm';
+import ItemForm from './forms/ItemForm';
 import { Paper, Modal, Typography } from '@mui/material'
+import LocationForm from './forms/LocationForm';
 
 
 const style = {
@@ -10,7 +11,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   overflow: 'scroll',
   width: '60%',
-  height: '90%',
+  maxHeight: '80%',
   bgcolor: 'background.paper',
   boxShadow: 24,
   borderRadius: '1px',
@@ -30,6 +31,19 @@ export default function BasicModal(props) {
         >
           <Paper sx={style}>
             <ItemForm />
+          </Paper>
+        </Modal>
+      );        
+    case 'createLocation':
+      return (
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Paper sx={style}>
+            <LocationForm />
           </Paper>
         </Modal>
       );        

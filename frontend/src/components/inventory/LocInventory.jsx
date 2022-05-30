@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TableSelect from './TableSelect';
-import BasicModal from './BasicModal';
+import BasicModal from '../BasicModal';
 
 // MUI
 import { Button, Grid, Paper, Typography, Modal, Box } from '@mui/material';

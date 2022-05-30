@@ -2,6 +2,9 @@ import React, {Component} from 'react'
 import { TextField, InputAdornment, Box, Button, FormControl, InputLabel, OutlinedInput, Paper, Typography } from '@mui/material'
 import axios from 'axios';
 import { Grid } from '@mui/material';
+
+
+// Need to convert to functional component
 class ItemForm extends Component {
   constructor(props) {
     super(props)
@@ -59,7 +62,6 @@ class ItemForm extends Component {
               autoComplete='off'
               style={{ width: '100%'}}
               >
-
               <Grid item xs={12}>         
                 <TextField 
                   label='Item Name'
