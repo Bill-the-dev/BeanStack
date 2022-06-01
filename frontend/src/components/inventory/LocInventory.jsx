@@ -14,7 +14,7 @@ import WarehouseIcon from '@mui/icons-material/Warehouse'
 import AddBoxIcon from '@mui/icons-material/AddBox';
 
 
-const api_url = 'http://localhost:3001/api/v1/';
+const api_url = 'http://localhost:3001/api/v1';
 // location quantity edit should prompt a modal with current item quantities in all locations and a change or move option.
 
 

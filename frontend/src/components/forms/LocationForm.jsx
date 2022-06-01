@@ -3,50 +3,54 @@ import { TextField, InputAdornment, Box, Button, FormControl, InputLabel, Outlin
 import axios from 'axios';
 import { Grid } from '@mui/material';
 
-// Need to convert to functional component
-// class LocationForm extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       name: '',
-//       vendor: '',
-//       quantity: 0,
-//       price: 0,
-//       description: '',
-//       category: '',
-//       user_id: 1
-//     };
-//     this.handleSubmit = this.handleSubmit.bind(this);
-//   }
-
 function LocationForm() {
 
-  const [field, setField] = useState('');
+  const api_url = 'http://localhost:3001/api/v1'
+  const [values, setValues] = useState({
+    location: {
+      city: '',
+      state: '',
+      country: '',
+      zip: ''
+    }
+  })
 
   const handleChange = (e) => {
-    setField(e.target.value);
-  }
-
-
+    setValues({ ...values, location: { ...values.location, [e.target.name]: e.target.value }});
+    // spread operator prevents the previous data from being lost
+  };
+  
   const handleSubmit = (e) => {
-    formSubmit(e.target);
+    e.preventDefault();
+
+    axios.post(`${api_url}/locations`, {
+      location: {
+        city: values.location.city,
+        state: values.location.state,
+        country: values.location.country,
+        zip: values.location.zip
+      }
+    })
+      .then(res => {
+        console.log(res.data)
+      })
   }
-
-
 
   // CRUD - CREATE 
   const formSubmit = (formData) => {
-    const api_url = ''
     let data = new FormData(formData);
     console.log(formData);
-    console.log(data);
+    // console.log(data);
     fetch(`${api_url}/locations`, {
       method: 'POST',
       mode: 'cors',
       body: data
     })
       // await axios.post(this.state.api_url, data)
-      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        return res.json()
+      })
       // .then(res => this.props.updateInventory(res));
   }
   
@@ -70,7 +74,8 @@ function LocationForm() {
                 sx={{ m: 1.5, width: '97%' }}
                 variant='outlined'
                 type='text'
-                name='item[name]'
+                name='city'
+                value={values.location.city}
                 onChange={handleChange}
                 required
               />
@@ -82,7 +87,8 @@ function LocationForm() {
                 sx={{ m: 1.5, width: '97%' }}
                 variant='outlined'
                 type='text'
-                name='item[vendor]'
+                name='state'
+                value={values.location.state}
                 onChange={handleChange}
               />
             </Grid>
@@ -91,9 +97,10 @@ function LocationForm() {
                 label="Country"
                 id="loc-form-country"
                 sx={{ m: 1.5, width: '97%' }}
-                onChange={handleChange}
                 startAdornment={<InputAdornment position="start"></InputAdornment>}
-                name='item[quantity]'
+                name='country'
+                value={values.location.country}
+                onChange={handleChange}
                 required
               />
             </Grid>
@@ -102,9 +109,10 @@ function LocationForm() {
                 label="Zip Code"
                 id="loc-form-zip"
                 sx={{ m: 1.5, width: '97%' }}
-                onChange={handleChange}
                 startAdornment={<InputAdornment position="start"></InputAdornment>}
-                name='item[quantity]'
+                name='zip'
+                value={values.location.zip}
+                onChange={handleChange}
                 required
               />
             </Grid>
