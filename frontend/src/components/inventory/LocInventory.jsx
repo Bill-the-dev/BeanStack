@@ -27,16 +27,37 @@ function LocInventory() {
   const [selected, setSelected] = useState([]);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState('')
+  const [locations, setLocations] = useState([]);
+
   
   const handleOpen = (type) => {
     setType(type)
     setOpen(true);
   }
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+  }
 
   const setLocUrl = (value) => {
     setApiUrlLoc(`${api_url}/locations/${value}`);
   };
+
+  // GET locations, prop to TableSelect
+  const getLocations = async () => {
+    const res = await axios.get(`${api_url}/locations`)
+    return res.data
+  }
+
+  // GET locations on update
+  useEffect(() => {
+    async function fetchLocations() {
+      const result = await axios(`${api_url}/locations`);
+      setLocations(result.data);
+      console.log(result.data);
+    }
+    fetchLocations();
+  }, [open]);
+  
 
   // GET items on mount
   useEffect(() => {
@@ -106,11 +127,13 @@ function LocInventory() {
     }
   }
 
+
+
   return (
     <Grid container spacing={2} direction="row" justifyContent="space-between" className='data-grid-container'>
-      <BasicModal open={open} handleClose={handleClose} type={type}/>
+      <BasicModal open={open} handleClose={handleClose} type={type} getLocations={getLocations} setLocations={setLocations} locations={locations}/>
       <Grid item xs={12} >
-        <TableSelect setLocUrl={setLocUrl} />
+        <TableSelect setLocUrl={setLocUrl} getLocations={getLocations} setLocations={setLocations} locations={locations} />
       </Grid>
       <Grid item xs={4}>
         <Weather apiUrlLoc={apiUrlLoc}/>

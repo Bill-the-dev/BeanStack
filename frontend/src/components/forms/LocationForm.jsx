@@ -3,8 +3,8 @@ import { TextField, InputAdornment, Box, Button, FormControl, InputLabel, Outlin
 import axios from 'axios';
 import { Grid } from '@mui/material';
 
-function LocationForm() {
-
+function LocationForm(props) {
+  const {handleClose} = props
   const api_url = 'http://localhost:3001/api/v1'
   const [values, setValues] = useState({
     location: {
@@ -15,11 +15,14 @@ function LocationForm() {
     }
   })
 
+  // console.log(getLocations)
+
   const handleChange = (e) => {
     setValues({ ...values, location: { ...values.location, [e.target.name]: e.target.value }});
     // spread operator prevents the previous data from being lost
   };
   
+  // CRUD - CREATE LOCATION
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -31,27 +34,9 @@ function LocationForm() {
         zip: values.location.zip
       }
     })
-      .then(res => {
-        console.log(res.data)
+      .then(() => {
+        handleClose()
       })
-  }
-
-  // CRUD - CREATE 
-  const formSubmit = (formData) => {
-    let data = new FormData(formData);
-    console.log(formData);
-    // console.log(data);
-    fetch(`${api_url}/locations`, {
-      method: 'POST',
-      mode: 'cors',
-      body: data
-    })
-      // await axios.post(this.state.api_url, data)
-      .then(res => {
-        console.log(res)
-        return res.json()
-      })
-      // .then(res => this.props.updateInventory(res));
   }
   
   return (

@@ -6,14 +6,16 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 
 export default function TableSelect(props) {
-  const { setLocUrl } = props;
-  const [locations, setLocations] = useState([]);
+  const { setLocUrl, getLocations, locations, setLocations } = props;
+  // const [locations, setLocations] = useState([]);
   const [value, setValue] = useState('');
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
+    debugger
     getLocations()
       .then((result) => {
+        debugger
         setLocations(result);
         console.log(result);
         return result;
@@ -31,7 +33,8 @@ export default function TableSelect(props) {
   }, [value]);
 
   // Ensure request is complete
-  if (!locations.length) {
+  // if (!locations.length) {
+  if (!locations) {
     return (null);
   } else {
 
@@ -85,6 +88,3 @@ export default function TableSelect(props) {
 
 const api_url = 'http://localhost:3001/api/v1';
 
-async function getLocations() {
-  return await axios.get(`${api_url}/locations`).then((res) => res.data);
-}

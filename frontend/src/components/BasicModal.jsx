@@ -17,15 +17,16 @@ const style = {
   borderRadius: '1px',
   p: 4,
 };
-
+// Remove getLoc and Loc, set only
 export default function BasicModal(props) {
-  const {open, handleClose, type} = props
+  const { open, handleClose, type } = props
   switch (type) {
     case 'createItem':
       return (
         <Modal
           open={open}
           onClose={handleClose}
+          // set Items
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -43,7 +44,7 @@ export default function BasicModal(props) {
           aria-describedby="modal-modal-description"
         >
           <Paper sx={style}>
-            <LocationForm />
+            <LocationForm handleClose={handleClose} />
           </Paper>
         </Modal>
       );        
