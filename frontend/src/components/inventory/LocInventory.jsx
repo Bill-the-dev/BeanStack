@@ -19,17 +19,16 @@ const api_url = 'http://localhost:3001/api/v1';
 
 
 // --- Inventory By Location ---
-function LocInventory() {
+function LocInventory(props) {
   const [apiUrlLoc, setApiUrlLoc] = useState('');
   const [locItems, setLocItems] = useState([]);
   const [items, setItems] = useState([]);
   const [gridData, setGridData] = useState([])
   const [selected, setSelected] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [type, setType] = useState('')
   const [locations, setLocations] = useState([]);
 
-  
+  const { open, setOpen, type, setType } = props
+
   const handleOpen = (type) => {
     setType(type)
     setOpen(true);
@@ -55,7 +54,6 @@ function LocInventory() {
       setLocations(result.data);
       console.log(result.data);
     }
-    // added fetch items - not updating the locationitems
     async function fetchItems() {
       const result = await axios(`${api_url}/items`);
       debugger
@@ -86,6 +84,7 @@ function LocInventory() {
           return setLocItems(result.data);
         });
     }
+    // updates when location changes and/or modal closes
   }, [apiUrlLoc, open]);
 
   // SET location grid data

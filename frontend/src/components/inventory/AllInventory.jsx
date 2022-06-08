@@ -28,9 +28,10 @@ const columns = [
 
 // useEffect callback explanation: https://www.robinwieruch.de/react-hooks-fetch-data/
 
-function AllInventory() {
+function AllInventory(props) {
   const [items, setItems] = useState([])
   const [selected, setSelected] = useState([])
+  const { open, setOpen, type, setType } = props
 
   useEffect(() => {
     async function fetchItems() {
@@ -39,6 +40,14 @@ function AllInventory() {
     }
     fetchItems();
   }, []);
+
+  useEffect(() => {
+    async function fetchItems() {
+      const result = await axios(api_url_items);
+      setItems(result.data);
+    }
+    fetchItems();
+  }, [open]);
 
   // CRUD - UPDATE FIELD
   const handleCommit = (e) => {

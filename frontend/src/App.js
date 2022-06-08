@@ -1,9 +1,16 @@
 import './App.css';
 import AllInventory from './components/inventory/AllInventory';
 import LocInventory from './components/inventory/LocInventory';
+import { useState } from 'react'
 import { Typography, Paper, Container } from "@mui/material";
 
 function App() {
+
+  // Passed as props to update both tables on change
+  // May only need open for AllInventory
+  const [open, setOpen] = useState(false);
+  const [type, setType] = useState('')
+
   return (
     <div className="App">
       <header className="App-header">
@@ -14,13 +21,19 @@ function App() {
       <Container>
         <Paper elevation={3} sx={{ p: "1rem", mt: "1rem"}}>
           <Typography variant="h4" sx={{ pt: "1rem", pb: "1.5rem"}}>Inventory - Combined</Typography>
-          <AllInventory /> 
+          <AllInventory 
+            open={open} setOpen={setOpen} 
+            type={type} setType={setType}
+          /> 
         </Paper>
       </Container>
       <Container>
         <Paper elevation={3} sx={{p: "1rem", mt: "1rem"}}>
           <Typography variant="h4" sx={{ pt: "1rem", pb: "1.5rem" }}>Inventory - By Location</Typography>
-          <LocInventory />
+          <LocInventory 
+            open={open} setOpen={setOpen}
+            type={type} setType={setType}          
+          />
         </Paper>
       </Container>
       
