@@ -22,6 +22,19 @@ class Api::V1::ItemsController < ApplicationController
     @item = Item.new(item_params)
 
     if @item.save
+      # on create, if locations exist, add location item to all. 
+      # see locations create controller for ref
+      # need to set conditional, greater than zero?
+      if Location.all.length > 0
+        location_ids = Location.all.map { |location| location.id }
+        location_ids.each do |loc_id|
+          LocationItem.create(
+            location: Location.find(loc_id),
+            item: Item.find(@item.id),
+            location_quantity: 0
+          )
+        end
+      end
       render json: @item, status: :created, location: api_v1_items_path(@item)
     else
       render json: @item.errors, status: :unprocessable_entity
