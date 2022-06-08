@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { Button, Grid } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import DeleteIcon from '@mui/icons-material/Delete';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+// import DeleteIcon from '@mui/icons-material/Delete';
+// import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 const api_url_items = 'http://localhost:3001/api/v1/items';
 
@@ -48,7 +48,6 @@ function AllInventory() {
   }
    
   // CRUD - DELETE SELECTED 
-
   const handleDeleteAll = () => {
     // let arrayIds = this.state.selected
     for (let i = 0; i < selected.length; i++) {

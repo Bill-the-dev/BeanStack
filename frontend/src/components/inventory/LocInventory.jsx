@@ -48,14 +48,22 @@ function LocInventory() {
     return res.data
   }
 
-  // GET locations on update
+  // GET locations, items on update
   useEffect(() => {
     async function fetchLocations() {
       const result = await axios(`${api_url}/locations`);
       setLocations(result.data);
       console.log(result.data);
     }
+    // added fetch items - not updating the locationitems
+    async function fetchItems() {
+      const result = await axios(`${api_url}/items`);
+      debugger
+      setItems(result.data);
+      console.log(result.data);
+    }
     fetchLocations();
+    fetchItems();
   }, [open]);
   
 

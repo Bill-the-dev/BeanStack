@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -7,7 +7,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 export default function TableSelect(props) {
   const { setLocUrl, getLocations, locations, setLocations } = props;
-  // const [locations, setLocations] = useState([]);
   const [value, setValue] = useState('');
   const [inputValue, setInputValue] = useState('');
 
@@ -33,7 +32,6 @@ export default function TableSelect(props) {
   }, [value]);
 
   // Ensure request is complete
-  // if (!locations.length) {
   if (!locations) {
     return (null);
   } else {
@@ -55,7 +53,6 @@ export default function TableSelect(props) {
           setInputValue(newInputValue);
         }}
         sx={{ marginBottom: "0.5rem" }}
-        // getOptionLabel={(option) => option.city}
         getOptionLabel={(option) => `${option.city}, ${option.state}` }
         renderOption={(props, option) => (
           <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>

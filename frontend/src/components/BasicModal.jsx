@@ -30,7 +30,7 @@ export default function BasicModal(props) {
           aria-describedby="modal-modal-description"
         >
           <Paper sx={style}>
-            <ItemForm />
+            <ItemForm handleClose={handleClose} />
           </Paper>
         </Modal>
       );        
