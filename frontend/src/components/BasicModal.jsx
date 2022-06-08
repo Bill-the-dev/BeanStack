@@ -1,6 +1,6 @@
 import * as React from 'react';
-import ItemForm from './forms/ItemForm';
 import { Paper, Modal, Typography } from '@mui/material'
+import ItemForm from './forms/ItemForm';
 import LocationForm from './forms/LocationForm';
 
 
@@ -26,7 +26,6 @@ export default function BasicModal(props) {
         <Modal
           open={open}
           onClose={handleClose}
-          // set Items
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
