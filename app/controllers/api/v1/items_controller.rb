@@ -22,9 +22,7 @@ class Api::V1::ItemsController < ApplicationController
     @item = Item.new(item_params)
 
     if @item.save
-      # on create, if locations exist, add location item to all. 
-      # see locations create controller for ref
-      # need to set conditional, greater than zero?
+      # on create, if locations exist (seed order), add location item to all. 
       if Location.all.length > 0
         location_ids = Location.all.map { |location| location.id }
         location_ids.each do |loc_id|

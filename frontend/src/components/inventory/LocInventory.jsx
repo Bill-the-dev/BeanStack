@@ -86,7 +86,7 @@ function LocInventory() {
           return setLocItems(result.data);
         });
     }
-  }, [apiUrlLoc]);
+  }, [apiUrlLoc, open]);
 
   // SET location grid data
   // Two dependencies => will run when EITHER changes
