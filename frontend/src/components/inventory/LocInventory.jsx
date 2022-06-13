@@ -151,6 +151,7 @@ function LocInventory(props) {
           variant="outlined"
           startIcon={<LocalShippingIcon />}
           sx={{ mb: "0.5rem", mr: "0.5rem", height: "%" }}
+          onClick={() => handleOpen('moveLocItem')}
         >Move Item
         </Button>
         <Button

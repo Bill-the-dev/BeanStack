@@ -33,13 +33,13 @@ function AllInventory(props) {
   const [selected, setSelected] = useState([])
   const { open, setOpen, type, setType } = props
 
-  useEffect(() => {
-    async function fetchItems() {
-      const result = await axios(api_url_items);
-      setItems(result.data);
-    }
-    fetchItems();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchItems() {
+  //     const result = await axios(api_url_items);
+  //     setItems(result.data);
+  //   }
+  //   fetchItems();
+  // }, []);
 
   useEffect(() => {
     async function fetchItems() {
@@ -48,6 +48,7 @@ function AllInventory(props) {
     }
     fetchItems();
   }, [open]);
+  // will run on both 'componentDidMount' and the dependency array contents.
 
   // CRUD - UPDATE FIELD
   const handleCommit = (e) => {
@@ -76,21 +77,6 @@ function AllInventory(props) {
   
   return(
     <Grid container spacing={3} direction="row" className='data-grid-container'>
-      <Grid item >
-        {/* <Button
-          variant="outlined"
-          startIcon={<DeleteIcon />}
-          onClick={handleDeleteAll}
-          sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }}
-        >Delete
-        </Button> */}
-        {/* <Button
-          variant="outlined"
-          startIcon={<LocalShippingIcon />}
-          sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }}
-        >Move Quantity
-        </Button> */}
-      </Grid>
       <Grid item xs={12} sx={{
         height: "60vh",
       }}>

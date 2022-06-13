@@ -2,8 +2,9 @@ import * as React from 'react';
 import { Paper, Modal, Typography } from '@mui/material'
 import ItemForm from './forms/ItemForm';
 import LocationForm from './forms/LocationForm';
+import MoveLocItemForm from './forms/MoveLocItemForm'
 
-
+// Modal has visible margin bottom and right in all, check if modal or paper should have 'style'
 const style = {
   position: 'absolute',
   top: '50%',
@@ -17,7 +18,7 @@ const style = {
   borderRadius: '1px',
   p: 4,
 };
-// Remove getLoc and Loc, set only
+
 export default function BasicModal(props) {
   const { open, handleClose, type } = props
   switch (type) {
@@ -44,6 +45,19 @@ export default function BasicModal(props) {
         >
           <Paper sx={style}>
             <LocationForm handleClose={handleClose} />
+          </Paper>
+        </Modal>
+      );        
+    case 'moveLocItem':
+      return (
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Paper sx={style}>
+            <MoveLocItemForm handleClose={handleClose} />
           </Paper>
         </Modal>
       );        
