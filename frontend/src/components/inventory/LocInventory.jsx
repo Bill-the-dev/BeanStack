@@ -27,27 +27,28 @@ function LocInventory(props) {
   const [selected, setSelected] = useState([]);
   const [locations, setLocations] = useState([]);
 
-  const { open, setOpen, type, setType } = props
+  const { open, setOpen, type, setType, handleOpen, handleClose } = props
 
-  const handleOpen = (type) => {
-    setType(type)
-    setOpen(true);
-  }
-  const handleClose = () => {
-    setOpen(false);
-  }
+  // const handleOpen = (type) => {
+  //   setType(type)
+  //   setOpen(true);
+  // }
+  // const handleClose = () => {
+  //   setOpen(false);
+  // }
 
   const setLocUrl = (value) => {
     setApiUrlLoc(`${api_url}/locations/${value}`);
   };
 
   // GET locations, prop to TableSelect
+  // refactor, may be unnecessary
   const getLocations = async () => {
     const res = await axios.get(`${api_url}/locations`)
     return res.data
   }
 
-  // GET locations, items on update
+  // GET locations, items on update, and mount (implicit)
   useEffect(() => {
     async function fetchLocations() {
       const result = await axios(`${api_url}/locations`);
@@ -64,16 +65,6 @@ function LocInventory(props) {
     fetchItems();
   }, [open]);
   
-
-  // GET items on mount
-  useEffect(() => {
-    async function fetchItems() {
-      const result = await axios(`${api_url}/items`);
-      setItems(result.data);
-      console.log(result.data);
-    }
-    fetchItems();
-  }, []);
 
   // GET locItems and assign
   useEffect(() => {
@@ -147,13 +138,13 @@ function LocInventory(props) {
       </Grid>
       <Grid item alignSelf="flex-end">
         {/* Use MUI Popover if no selection is valid */}
-        <Button
+        {/* <Button
           variant="outlined"
           startIcon={<LocalShippingIcon />}
           sx={{ mb: "0.5rem", mr: "0.5rem", height: "%" }}
           onClick={() => handleOpen('moveLocItem')}
         >Move Item
-        </Button>
+        </Button> */}
         <Button
           variant="outlined"
           startIcon={<AddBoxIcon />}
@@ -168,13 +159,13 @@ function LocInventory(props) {
           onClick={() => handleOpen('createLocation')}
         >Create Location
         </Button>
-        <Button
+        {/* <Button
           variant="outlined"
           startIcon={<DeleteIcon />}
           onClick={handleDeleteAll}
           sx={{ marginBottom: "0.5rem", marginRight: "0.5rem" }}
         >Delete
-        </Button>
+        </Button> */}
       </Grid>
       <Grid item xs={12} sx={{
         height: "60vh",
@@ -202,8 +193,6 @@ const columns = [
   { field: 'id', headerName: 'ID', width: 75 },
   { field: 'name', headerName: 'Name', width: 150 },
   { field: 'vendor', headerName: 'Vendor / Source', width: 150 },
-  { field: 'location_quantity', headerName: 'Location Quantity', width: 130, align: 'center', headerAlign: 'center' },
-  { field: 'quantity', headerName: 'Total Quantity', width: 130, align: 'center', headerAlign: 'center' },
   {
     field: 'price', headerName: 'Price', editable: true, width: 75,
     valueFormatter: (params) => {
@@ -215,6 +204,8 @@ const columns = [
       return `$${valueFormatted}`;
     },
   },
+  { field: 'location_quantity', headerName: 'Location Quantity', width: 130, align: 'center', headerAlign: 'center' },
+  { field: 'quantity', headerName: 'Total Quantity', width: 130, align: 'center', headerAlign: 'center' },
   { field: 'description', headerName: 'Description', width: 200 },
   { field: 'category', headerName: 'Category', width: 150 },
   { field: 'user_id', headerName: 'User ID', width: 75 },

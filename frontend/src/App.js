@@ -11,6 +11,14 @@ function App() {
   const [open, setOpen] = useState(false);
   const [type, setType] = useState('')
 
+  const handleOpen = (type) => {
+    setType(type);
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -19,10 +27,11 @@ function App() {
       </header>
       <Container>
         <Paper elevation={3} sx={{ p: "1rem", mt: "1rem"}}>
-          <Typography variant="h4" sx={{ pt: "1rem", pb: "1.5rem"}}>Inventory - Combined</Typography>
+          <Typography variant="h4" sx={{ pt: "1rem", pb: "1.5rem"}}>Inventory - All Locations</Typography>
           <AllInventory 
-            open={open} setOpen={setOpen} 
+            open={open} setOpen={setOpen}  
             type={type} setType={setType}
+            handleOpen={handleOpen}
           /> 
         </Paper>
       </Container>
@@ -31,7 +40,8 @@ function App() {
           <Typography variant="h4" sx={{ pt: "1rem", pb: "1.5rem" }}>Inventory - By Location</Typography>
           <LocInventory 
             open={open} setOpen={setOpen}
-            type={type} setType={setType}          
+            type={type} setType={setType}
+            handleOpen={handleOpen} handleClose={handleClose}          
           />
         </Paper>
       </Container>
