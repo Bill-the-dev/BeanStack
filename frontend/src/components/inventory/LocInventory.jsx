@@ -23,7 +23,7 @@ function LocInventory(props) {
   const [apiUrlLoc, setApiUrlLoc] = useState('');
   const [locItems, setLocItems] = useState([]);
   const [items, setItems] = useState([]);
-  const [gridData, setGridData] = useState([])
+  const [gridData, setGridData] = useState([]);
   const [selected, setSelected] = useState([]);
   const [locations, setLocations] = useState([]);
 
@@ -57,7 +57,6 @@ function LocInventory(props) {
     }
     async function fetchItems() {
       const result = await axios(`${api_url}/items`);
-      debugger
       setItems(result.data);
       console.log(result.data);
     }

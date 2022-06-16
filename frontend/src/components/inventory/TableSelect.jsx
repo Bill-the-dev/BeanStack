@@ -11,10 +11,8 @@ export default function TableSelect(props) {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    debugger
     getLocations()
       .then((result) => {
-        debugger
         setLocations(result);
         console.log(result);
         return result;

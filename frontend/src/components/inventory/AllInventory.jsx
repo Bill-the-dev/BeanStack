@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { merge } from 'lodash';
 import { Button, Grid } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -23,17 +24,14 @@ const columns = [
     },
   },
   { field: 'quantity', headerName: 'Total Quantity', width: 130, align: 'center', headerAlign: 'center' },
-  // { field: 'description', headerName: 'Description', editable: true, width: 200 },
-  // { field: 'category', headerName: 'Category', editable: true, width: 150 },
-  // { field: 'user_id', headerName: 'User ID', width: 75 },
 ];
-
-// useEffect callback explanation: https://www.robinwieruch.de/react-hooks-fetch-data/
 
 function AllInventory(props) {
   const [items, setItems] = useState([]);
   const [locations, setLocations] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [gridData, setGridData] = useState([])
+  const [colData, setColData] = useState(columns)
   const { open, setOpen, type, setType, handleOpen } = props;
 
   // GET locations, items on update
@@ -57,25 +55,104 @@ function AllInventory(props) {
   // GET locItems per loc on update
   useEffect(() => {
     async function fetchLocItems() {
+      let columnsToAdd = []
+
       for (let i = 0; i < locations.length; i++) {
         const location = locations[i];
         const locItems = await axios(`${api_url}/locations/${location.id}/location_items`)
-        addLocItemCol(location, locItems)
-        console.log(locItems)
+        // replacing state in loop
+        // addLocItemCol(location, locItems)
+        debugger 
+
+        let newColumn = (addLocColumn(location))
+        if (newColumn) {
+          columnsToAdd.push(newColumn)
+        }
       }
-    
+      debugger
+      // spread preserves, merge does not
+      let newColData = [...colData, ...columnsToAdd];
+      console.log(newColData);
+      setColData(newColData);
     }
+
     if (locations && items) {fetchLocItems()};
 
-  }, [open, locations, items]);
+  }, [open]);
+  // }, [open, locations, items]);
 
-  // Set LocItems Quantity per Location in datagrid
-  const addLocItemCol = (location, locItems) => {
+  const addLocColumn = (location) => {
+    // ensure multi-word cities follow column naming
+    const locCity = location.city.split(' ').join('');
+    const newColumn = {
+      field: `${locCity}`, headerName: `${location.city}`, width: 130, align: 'center', headerAlign: 'center'
+    }
+    
+    let addColumn = true;
+    columns.forEach(column => {
+      debugger;
+      if (column.headerName === location.city) {
+        debugger
+        console.log(column.headerName === location.city)
+        addColumn = false;
+      }
+    });
 
-    const newColumn = [
-      { field: 'location_quantity', headerName: `${location.city}`, width: 130, align: 'center', headerAlign: 'center' },
-    ]
+    // update columns if newColumn doesn't exist (true or false)
+    if (addColumn) {
+      return newColumn
+    } else {
+      return null
+    }
   }
+
+  // // Set LocItems Quantity per Location in datagrid
+  // const addLocItemCol = (location, locItems) => {
+  //   debugger
+  //   if (items.length === 0 || locations.length === 0) {return}
+    
+  //   // ensure multi-word cities follow column naming
+  //   const locCity = location.city.split(' ').join('')
+  //   const newColumn = { 
+  //     field: `${locCity}`, headerName: `${location.city}`, width: 130, align: 'center', headerAlign: 'center' 
+  //   }
+    
+  //   let addColumn = true 
+  //   columns.forEach(column => {
+  //     debugger
+  //     if (column.headerName === location.city) {
+  //       addColumn = false
+  //     }
+  //   })
+
+  //   // update columns if newColumn doesn't exist (true or false)
+  //   if (addColumn){
+  //     debugger
+
+  //     // const newColData = Object.assign([], colData, [newColumn])  
+  //     // const newColData = Object.assign([], colData)  
+  //     const newColData = merge([], colData)  
+  //     newColData.push(newColumn)
+  //     setColData(newColData)    
+      
+  //     // row data in own method?
+  //     let mergeData = []
+  //     for (let i = 0; i < locItems.data.length; i++) {
+  //       debugger
+        
+  //       const locItemQuantity = { [locCity]: locItems.data[i].location_quantity };
+  //       const item = items[i];
+  //       // let locItemMerged = Object.assign(item, locItemQuantity);
+  //       let locItemMerged = merge(item, locItemQuantity);
+  //       mergeData.push(locItemMerged);
+  //       console.log(mergeData);
+  //     }
+  //     debugger
+  //     // problem here. Iterates through the items  
+  //     setGridData(mergeData);
+  //   }
+  // }
+
 
   // CRUD - UPDATE FIELD
   const handleCommit = (e) => {
@@ -125,8 +202,9 @@ function AllInventory(props) {
         height: "60vh",
       }}>
         <DataGrid
-          rows={items}
-          columns={columns}
+          // rows={items}
+          rows={gridData}
+          columns={colData}
           loading={!items.length}
           checkboxSelection
           onSelectionModelChange={(data) => setSelected(data)}
