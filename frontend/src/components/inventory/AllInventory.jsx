@@ -47,9 +47,9 @@ function AllInventory(props) {
       setItems(result.data);
       console.log(result.data);
     }
-
-    fetchLocations();
-    fetchItems();
+    debugger
+    // multiple concurrent requests
+    Promise.all([fetchLocations(), fetchItems()])
   }, [open]);
 
   // GET locItems per loc on update
@@ -59,11 +59,6 @@ function AllInventory(props) {
 
       for (let i = 0; i < locations.length; i++) {
         const location = locations[i];
-        const locItems = await axios(`${api_url}/locations/${location.id}/location_items`)
-        // replacing state in loop
-        // addLocItemCol(location, locItems)
-        debugger 
-
         let newColumn = (addLocColumn(location))
         if (newColumn) {
           columnsToAdd.push(newColumn)
@@ -76,10 +71,9 @@ function AllInventory(props) {
       setColData(newColData);
     }
 
-    if (locations && items) {fetchLocItems()};
+    if ((locations.length + 5) !== colData.length) {fetchLocItems()};
 
-  }, [open]);
-  // }, [open, locations, items]);
+  }, [open, locations, items, colData]);
 
   const addLocColumn = (location) => {
     // ensure multi-word cities follow column naming
@@ -89,10 +83,10 @@ function AllInventory(props) {
     }
     
     let addColumn = true;
-    columns.forEach(column => {
-      debugger;
+    colData.forEach(column => {
+      console.log(`location.city ${location.city}`)
+      console.log(`column.headerName ${column.headerName}`)
       if (column.headerName === location.city) {
-        debugger
         console.log(column.headerName === location.city)
         addColumn = false;
       }
