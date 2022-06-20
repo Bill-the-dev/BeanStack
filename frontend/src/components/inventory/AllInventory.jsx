@@ -29,9 +29,9 @@ const columns = [
 function AllInventory(props) {
   const [items, setItems] = useState([]);
   const [locations, setLocations] = useState([]);
+  const [rowData, setRowData] = useState([]);
+  const [colData, setColData] = useState(columns);
   const [selected, setSelected] = useState([]);
-  const [gridData, setGridData] = useState([])
-  const [colData, setColData] = useState(columns)
   const { open, setOpen, type, setType, handleOpen } = props;
 
   // GET locations, items on update
@@ -47,70 +47,100 @@ function AllInventory(props) {
       setItems(result.data);
       console.log(result.data);
     }
-    debugger
+    debugger;
     // multiple concurrent requests
-    Promise.all([fetchLocations(), fetchItems()])
+    Promise.all([fetchLocations(), fetchItems()]);
   }, [open]);
 
   // GET locItems per loc on update
   useEffect(() => {
-    async function fetchLocItems() {
-      let columnsToAdd = []
+    async function fetchLocCols() {
+      let columnsToAdd = [];
 
       for (let i = 0; i < locations.length; i++) {
         const location = locations[i];
-        let newColumn = (addLocColumn(location))
+        let newColumn = addLocColumn(location);
         if (newColumn) {
-          columnsToAdd.push(newColumn)
+          columnsToAdd.push(newColumn);
         }
       }
-      debugger
       // spread preserves, merge does not
       let newColData = [...colData, ...columnsToAdd];
       console.log(newColData);
       setColData(newColData);
     }
 
-    if ((locations.length + 5) !== colData.length) {fetchLocItems()};
+    async function fetchLocItems() {
+      let locItemsToAdd = [];
+      for (let i = 0; i < locations.length; i++) {
+        const location = locations[i];
+        const locItems = await axios.get(`${api_url}/locations/${location.id}/location_items`);
+        let newLocItems = addRowData(location, locItems);
+        locItemsToAdd.push(newLocItems);
+      }
 
+      let newRowData = [...rowData, ...locItemsToAdd];
+      debugger
+      // data format is wrong! items almost sets it correctly
+      setRowData(newRowData)
+    }
+    // locations + default (5) columns
+    if ((locations.length + 5) !== colData.length) { fetchLocCols(); };
+    if (locations.length > 0) {fetchLocItems()};
   }, [open, locations, items, colData]);
+
+  // line 79 is pushing a redundant array.  Move merge outside? Return only locItems?
+  const addRowData = (location, locItems) => {
+    let mergeData = [];
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const locItem = locItems.data[i];
+      const locItemQuantity = { [location.city]: locItem.location_quantity };
+      let locItemMerged = merge(item, locItemQuantity);
+      mergeData.push(locItemMerged);
+      console.log(mergeData);
+    }  
+    return mergeData;
+  };
+
 
   const addLocColumn = (location) => {
     // ensure multi-word cities follow column naming
     const locCity = location.city.split(' ').join('');
     const newColumn = {
       field: `${locCity}`, headerName: `${location.city}`, width: 130, align: 'center', headerAlign: 'center'
-    }
-    
+    };
+
     let addColumn = true;
     colData.forEach(column => {
-      console.log(`location.city ${location.city}`)
-      console.log(`column.headerName ${column.headerName}`)
+      console.log(`location.city ${location.city}`);
+      console.log(`column.headerName ${column.headerName}`);
       if (column.headerName === location.city) {
-        console.log(column.headerName === location.city)
         addColumn = false;
       }
     });
 
     // update columns if newColumn doesn't exist (true or false)
     if (addColumn) {
-      return newColumn
+      return newColumn;
     } else {
-      return null
+      return null;
     }
-  }
+  };
+
+
 
   // // Set LocItems Quantity per Location in datagrid
   // const addLocItemCol = (location, locItems) => {
   //   debugger
   //   if (items.length === 0 || locations.length === 0) {return}
-    
+
   //   // ensure multi-word cities follow column naming
   //   const locCity = location.city.split(' ').join('')
   //   const newColumn = { 
   //     field: `${locCity}`, headerName: `${location.city}`, width: 130, align: 'center', headerAlign: 'center' 
   //   }
-    
+
   //   let addColumn = true 
   //   columns.forEach(column => {
   //     debugger
@@ -128,12 +158,12 @@ function AllInventory(props) {
   //     const newColData = merge([], colData)  
   //     newColData.push(newColumn)
   //     setColData(newColData)    
-      
+
   //     // row data in own method?
   //     let mergeData = []
   //     for (let i = 0; i < locItems.data.length; i++) {
   //       debugger
-        
+
   //       const locItemQuantity = { [locCity]: locItems.data[i].location_quantity };
   //       const item = items[i];
   //       // let locItemMerged = Object.assign(item, locItemQuantity);
@@ -143,7 +173,7 @@ function AllInventory(props) {
   //     }
   //     debugger
   //     // problem here. Iterates through the items  
-  //     setGridData(mergeData);
+  //     setRowData(mergeData);
   //   }
   // }
 
@@ -197,7 +227,7 @@ function AllInventory(props) {
       }}>
         <DataGrid
           // rows={items}
-          rows={gridData}
+          rows={rowData}
           columns={colData}
           loading={!items.length}
           checkboxSelection
