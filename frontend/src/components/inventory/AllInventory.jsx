@@ -29,7 +29,7 @@ const columns = [
 function AllInventory(props) {
   const [items, setItems] = useState([]);
   const [locations, setLocations] = useState([]);
-  const [rowData, setRowData] = useState([]);
+  const [rowData, setRowData] = useState(items);
   const [colData, setColData] = useState(columns);
   const [selected, setSelected] = useState([]);
   const { open, setOpen, type, setType, handleOpen } = props;
@@ -73,14 +73,16 @@ function AllInventory(props) {
     async function fetchLocItems() {
       let locItemsToAdd = [];
       for (let i = 0; i < locations.length; i++) {
+        // debugger
         const location = locations[i];
         const locItems = await axios.get(`${api_url}/locations/${location.id}/location_items`);
-        let newLocItems = addRowData(location, locItems);
-        locItemsToAdd.push(newLocItems);
+        let newLocItems = addRowData(location, locItems.data);
+        debugger
+        locItemsToAdd.push(...newLocItems);
       }
-
-      let newRowData = [...rowData, ...locItemsToAdd];
-      debugger
+      // locItemsToAdd is incorrect. locItems.data will partially resolve
+      let newRowData = [...new Set([...rowData, ...locItemsToAdd])];
+      // debugger
       // data format is wrong! items almost sets it correctly
       setRowData(newRowData)
     }
@@ -94,7 +96,7 @@ function AllInventory(props) {
     let mergeData = [];
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      const locItem = locItems.data[i];
+      const locItem = locItems[i];
       const locItemQuantity = { [location.city]: locItem.location_quantity };
       let locItemMerged = merge(item, locItemQuantity);
       mergeData.push(locItemMerged);
@@ -225,16 +227,20 @@ function AllInventory(props) {
       <Grid item xs={12} sx={{
         height: "60vh",
       }}>
-        <DataGrid
-          // rows={items}
-          rows={rowData}
-          columns={colData}
-          loading={!items.length}
-          checkboxSelection
-          onSelectionModelChange={(data) => setSelected(data)}
-          onCellEditCommit={handleCommit}
-          rowsPerPageOptions={[10, 50, 100]}
-        />
+        {(rowData.length === 0)
+          ? null
+          : <DataGrid
+            // rows={items}
+            getRowId={(r) => r.id}
+            rows={rowData}
+            columns={colData}
+            loading={!items.length}
+            checkboxSelection
+            onSelectionModelChange={(data) => setSelected(data)}
+            onCellEditCommit={handleCommit}
+            rowsPerPageOptions={[10, 50, 100]}
+          />
+        }
       </Grid>
       <hr />
     </Grid>
