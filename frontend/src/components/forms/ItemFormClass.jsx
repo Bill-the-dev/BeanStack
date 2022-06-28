@@ -37,8 +37,8 @@ class ItemForm extends Component {
   // CRUD - CREATE 
   async formSubmit(formData) {
     let data = new FormData(formData)
-    console.log(formData)
-    console.log(data)
+    // console.log(formData)
+    // console.log(data)
     await fetch(this.state.api_url, {
       method: 'POST',
       mode: 'cors', 

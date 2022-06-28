@@ -38,8 +38,8 @@ class LocationForm extends Component {
   async formSubmit(formData) {
     const api_url = ''
     let data = new FormData(formData);
-    console.log(formData);
-    console.log(data);
+    // console.log(formData);
+    // console.log(data);
     await fetch(`${api_url}/locations`, {
       method: 'POST',
       mode: 'cors',

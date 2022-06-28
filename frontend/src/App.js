@@ -25,7 +25,8 @@ function App() {
         <Typography variant="h1">BeanStack</Typography>
         <hr />
       </header>
-      <Container>
+      {/* Disabled to continue front end development in branch */}
+      {/* <Container>
         <Paper elevation={3} sx={{ p: "1rem", mt: "1rem"}}>
           <Typography variant="h4" sx={{ pt: "1rem", pb: "1.5rem"}}>Inventory - All Locations</Typography>
           <AllInventory 
@@ -34,7 +35,7 @@ function App() {
             handleOpen={handleOpen}
           /> 
         </Paper>
-      </Container>
+      </Container> */}
       <Container>
         <Paper elevation={3} sx={{p: "1rem", mt: "1rem"}}>
           <Typography variant="h4" sx={{ pt: "1rem", pb: "1.5rem" }}>Inventory - By Location</Typography>

@@ -14,7 +14,7 @@ export default function TableSelect(props) {
     getLocations()
       .then((result) => {
         setLocations(result);
-        console.log(result);
+        // console.log(result);
         return result;
       })
       .then((result) => {
@@ -43,7 +43,7 @@ export default function TableSelect(props) {
         options={locations}
         value={value}
         onChange={(e, newValue) => {
-          console.log(e.target.value);
+          // console.log(e.target.value);
           setValue(newValue);
         }}
         inputValue={inputValue}

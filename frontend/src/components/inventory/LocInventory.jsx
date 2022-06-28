@@ -53,12 +53,12 @@ function LocInventory(props) {
     async function fetchLocations() {
       const result = await axios(`${api_url}/locations`);
       setLocations(result.data);
-      console.log(result.data);
+      // console.log(result.data);
     }
     async function fetchItems() {
       const result = await axios(`${api_url}/items`);
       setItems(result.data);
-      console.log(result.data);
+      // console.log(result.data);
     }
     fetchLocations();
     fetchItems();
@@ -70,7 +70,7 @@ function LocInventory(props) {
     if (apiUrlLoc !== '') {
       axios(`${apiUrlLoc}/location_items`)
         .then((result) => {
-          console.log(result.data);
+          // console.log(result.data);
           return setLocItems(result.data);
         });
     }
@@ -94,7 +94,7 @@ function LocInventory(props) {
       const item = items[i];
       let locItemMerged = Object.assign(item, locItemQuantity);
       mergeData.push(locItemMerged)
-      console.log(mergeData);
+      // console.log(mergeData);
     }
     setGridData(mergeData)
   }
@@ -220,7 +220,7 @@ function Weather(props) {
     if (apiUrlLoc !== '') {
       axios(`${apiUrlLoc}/weather`)
         .then((result) => {
-          console.log(result.data);
+          // console.log(result.data);
           return setWeather(result.data);
         });
     }

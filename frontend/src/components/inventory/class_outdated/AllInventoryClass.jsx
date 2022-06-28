@@ -92,7 +92,7 @@ class AllInventory extends Component {
   }
 
   render() {
-    console.log(this.state.items)
+    // console.log(this.state.items)
     let items = this.state.items
     return (
       <Grid container spacing={3} direction="row" className='data-grid-container'>

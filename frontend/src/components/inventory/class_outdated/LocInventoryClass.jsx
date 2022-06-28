@@ -102,7 +102,7 @@ class LocInventory extends Component {
   }
 
   render() {
-    console.log(this.state.locItems)
+    // console.log(this.state.locItems)
     let locItems = this.state.locItems
     return (
       <Grid container spacing={3} direction="row" className='data-grid-container'>

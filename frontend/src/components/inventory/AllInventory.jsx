@@ -131,55 +131,6 @@ function AllInventory(props) {
   };
 
 
-
-  // // Set LocItems Quantity per Location in datagrid
-  // const addLocItemCol = (location, locItems) => {
-  //   debugger
-  //   if (items.length === 0 || locations.length === 0) {return}
-
-  //   // ensure multi-word cities follow column naming
-  //   const locCity = location.city.split(' ').join('')
-  //   const newColumn = { 
-  //     field: `${locCity}`, headerName: `${location.city}`, width: 130, align: 'center', headerAlign: 'center' 
-  //   }
-
-  //   let addColumn = true 
-  //   columns.forEach(column => {
-  //     debugger
-  //     if (column.headerName === location.city) {
-  //       addColumn = false
-  //     }
-  //   })
-
-  //   // update columns if newColumn doesn't exist (true or false)
-  //   if (addColumn){
-  //     debugger
-
-  //     // const newColData = Object.assign([], colData, [newColumn])  
-  //     // const newColData = Object.assign([], colData)  
-  //     const newColData = merge([], colData)  
-  //     newColData.push(newColumn)
-  //     setColData(newColData)    
-
-  //     // row data in own method?
-  //     let mergeData = []
-  //     for (let i = 0; i < locItems.data.length; i++) {
-  //       debugger
-
-  //       const locItemQuantity = { [locCity]: locItems.data[i].location_quantity };
-  //       const item = items[i];
-  //       // let locItemMerged = Object.assign(item, locItemQuantity);
-  //       let locItemMerged = merge(item, locItemQuantity);
-  //       mergeData.push(locItemMerged);
-  //       console.log(mergeData);
-  //     }
-  //     debugger
-  //     // problem here. Iterates through the items  
-  //     setRowData(mergeData);
-  //   }
-  // }
-
-
   // CRUD - UPDATE FIELD
   const handleCommit = (e) => {
     let data = { item: { [e.field]: e.value } };
@@ -227,6 +178,7 @@ function AllInventory(props) {
       <Grid item xs={12} sx={{
         height: "60vh",
       }}>
+        {/* Temporarily disabled, continued development in branch */}
         {(rowData.length === 0)
           ? null
           : <DataGrid
