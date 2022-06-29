@@ -34,21 +34,25 @@ function AllInventory(props) {
   const [selected, setSelected] = useState([]);
   const { open, setOpen, type, setType, handleOpen } = props;
 
+  // TEMPORARY - check selected is working
+  useEffect(() => {
+    console.log(selected)
+  }, [selected])
+  
   // GET locations, items on update
   useEffect(() => {
     async function fetchLocations() {
       const result = await axios(`${api_url}/locations`);
       setLocations(result.data);
-      console.log(result.data);
+      // console.log(result.data);
     }
 
     async function fetchItems() {
       const result = await axios(`${api_url}/items`);
       setItems(result.data);
-      console.log(result.data);
+      // console.log(result.data);
     }
-    // debugger;
-    // multiple concurrent requests
+
     Promise.all([fetchLocations(), fetchItems()]);
   }, [open]);
 
@@ -66,7 +70,7 @@ function AllInventory(props) {
       }
       // spread preserves, merge does not
       let newColData = [...colData, ...columnsToAdd];
-      console.log(newColData);
+      // console.log(newColData);
       setColData(newColData);
     }
 
@@ -85,31 +89,6 @@ function AllInventory(props) {
     if (locations.length > 0) {fetchLocItems()};
   }, [open, locations, items, colData]);
 
-  // // old version, caused doubling on modal open:
-  //   async function fetchLocItems() {
-  //     let locItemsToAdd = [];
-  //     for (let i = 0; i < locations.length; i++) {
-  //       // debugger
-  //       const location = locations[i];
-  //       const locItems = await axios.get(`${api_url}/locations/${location.id}/location_items`);
-  //       let newLocItems = addRowData(location, locItems.data);
-  //       debugger
-  //       // locItemsToAdd.push(...newLocItems);
-  //       locItemsToAdd = [...new Set([...locItemsToAdd, ...newLocItems])];
-  //     }
-  //     debugger
-  //     // second time around newRowData becomes a list of 50! 
-  //     let newRowData = [...new Set([...rowData, ...locItemsToAdd])];
-  //     debugger
-  //     setRowData(newRowData)
-  //     // after successful mount and setRowData above, rowData accurately shows as 25 items.
-  //     // second time through newRowData becomes a list of 50 instead! 
-  //   }
-  //   // locations + default (5) columns
-  //   if ((locations.length + 5) !== colData.length) { fetchLocCols(); };
-  //   if (locations.length > 0) {fetchLocItems()};
-  // }, [open, locations, items, colData]);
-
   const addRowData = (location, locItems) => {
     let mergeData = [];
     for (let i = 0; i < items.length; i++) {
@@ -119,11 +98,10 @@ function AllInventory(props) {
       const locItemQuantity = { [locCity]: locItem.location_quantity };
       let locItemMerged = merge(item, locItemQuantity);
       mergeData.push(locItemMerged);
-      console.log(mergeData);
+      // console.log(mergeData);
     }  
     return mergeData;
   };
-
 
   const addLocColumn = (location) => {
     // ensure multi-word cities follow column naming
@@ -134,8 +112,8 @@ function AllInventory(props) {
 
     let addColumn = true;
     colData.forEach(column => {
-      console.log(`location.city ${location.city}`);
-      console.log(`column.headerName ${column.headerName}`);
+      // console.log(`location.city ${location.city}`);
+      // console.log(`column.headerName ${column.headerName}`);
       if (column.headerName === location.city) {
         addColumn = false;
       }
@@ -148,7 +126,6 @@ function AllInventory(props) {
       return null;
     }
   };
-
 
   // CRUD - UPDATE FIELD
   const handleCommit = (e) => {
