@@ -47,7 +47,7 @@ function AllInventory(props) {
       setItems(result.data);
       console.log(result.data);
     }
-    debugger;
+    // debugger;
     // multiple concurrent requests
     Promise.all([fetchLocations(), fetchItems()]);
   }, [open]);
@@ -73,25 +73,43 @@ function AllInventory(props) {
     async function fetchLocItems() {
       let locItemsToAdd = [];
       for (let i = 0; i < locations.length; i++) {
-        // debugger
         const location = locations[i];
         const locItems = await axios.get(`${api_url}/locations/${location.id}/location_items`);
         let newLocItems = addRowData(location, locItems.data);
-        debugger
-        locItemsToAdd.push(...newLocItems);
+        locItemsToAdd = [...new Set([...locItemsToAdd, ...newLocItems])];
       }
-      // locItemsToAdd is incorrect. locItems.data will partially resolve
-      let newRowData = [...new Set([...rowData, ...locItemsToAdd])];
-      // debugger
-      // data format is wrong! items almost sets it correctly
-      setRowData(newRowData)
+      setRowData(locItemsToAdd)
     }
     // locations + default (5) columns
     if ((locations.length + 5) !== colData.length) { fetchLocCols(); };
     if (locations.length > 0) {fetchLocItems()};
   }, [open, locations, items, colData]);
 
-  // line 79 is pushing a redundant array.  Move merge outside? Return only locItems?
+  // // old version, caused doubling on modal open:
+  //   async function fetchLocItems() {
+  //     let locItemsToAdd = [];
+  //     for (let i = 0; i < locations.length; i++) {
+  //       // debugger
+  //       const location = locations[i];
+  //       const locItems = await axios.get(`${api_url}/locations/${location.id}/location_items`);
+  //       let newLocItems = addRowData(location, locItems.data);
+  //       debugger
+  //       // locItemsToAdd.push(...newLocItems);
+  //       locItemsToAdd = [...new Set([...locItemsToAdd, ...newLocItems])];
+  //     }
+  //     debugger
+  //     // second time around newRowData becomes a list of 50! 
+  //     let newRowData = [...new Set([...rowData, ...locItemsToAdd])];
+  //     debugger
+  //     setRowData(newRowData)
+  //     // after successful mount and setRowData above, rowData accurately shows as 25 items.
+  //     // second time through newRowData becomes a list of 50 instead! 
+  //   }
+  //   // locations + default (5) columns
+  //   if ((locations.length + 5) !== colData.length) { fetchLocCols(); };
+  //   if (locations.length > 0) {fetchLocItems()};
+  // }, [open, locations, items, colData]);
+
   const addRowData = (location, locItems) => {
     let mergeData = [];
     for (let i = 0; i < items.length; i++) {
