@@ -22,11 +22,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Typography variant="h1">BeanStack</Typography>
+        <Typography variant="h1" sx={{ml: "2rem"}}>BeanStack</Typography>
         <hr />
       </header>
-      {/* Disabled to continue front end development in branch */}
-      {/* <Container>
+      <Container>
         <Paper elevation={3} sx={{ p: "1rem", mt: "1rem"}}>
           <Typography variant="h4" sx={{ pt: "1rem", pb: "1.5rem"}}>Inventory - All Locations</Typography>
           <AllInventory 
@@ -35,7 +34,7 @@ function App() {
             handleOpen={handleOpen}
           /> 
         </Paper>
-      </Container> */}
+      </Container>
       <Container>
         <Paper elevation={3} sx={{p: "1rem", mt: "1rem"}}>
           <Typography variant="h4" sx={{ pt: "1rem", pb: "1.5rem" }}>Inventory - By Location</Typography>

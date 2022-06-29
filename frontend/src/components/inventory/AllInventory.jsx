@@ -97,7 +97,8 @@ function AllInventory(props) {
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       const locItem = locItems[i];
-      const locItemQuantity = { [location.city]: locItem.location_quantity };
+      const locCity = location.city.split(' ').join('');
+      const locItemQuantity = { [locCity]: locItem.location_quantity };
       let locItemMerged = merge(item, locItemQuantity);
       mergeData.push(locItemMerged);
       console.log(mergeData);
