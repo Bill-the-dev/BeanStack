@@ -86,10 +86,10 @@ Run `bundle exec rails console`
 - Get location weather
   `Location.where(id: 1).pluck("weather")[0]` 
 
-### BE Routes Quick Reference
+/* ### BE Routes Quick Reference
 Append routes to `https://beanstackreplit.bill-the-dev.repl.co` after starting server `bundle exec rails s`
 For full detail run `bundle exec rails routes`  
-Nest form data within model params. For example, `?location[city]=Montville&location[zip]=07045`
+Nest form data within model params. For example, `?location[city]=Montville&location[zip]=07045` */
   
 #### Locations 
 - params: city, state (if applicable), country (two-letter code), and zip (3-character CA *or* 5-digit US, type:string)      
